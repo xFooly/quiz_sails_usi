@@ -3,14 +3,13 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rockwell">
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/flat-ui.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><%= title %></title>
-	<script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/socket.io.js"></script>
-    <script type="text/javascript" src="/js/sails.io.js"></script>
-    <script type="text/javascript" src="/js/app.js"></script>
 
     <style type="text/css">
         * {
@@ -21,23 +20,17 @@
         body {
             font: 71%/1.5 Verdana, Sans-Serif;
             background: #eee;
+            text-align: center;
+        }
+
+        .center {
+            margin: 0 auto;
+            width: 500px;
         }
 
         #container {
             margin: 100px auto;
             width: 1376px;
-        }
-
-        #write {
-            margin: 0 0 5px;
-            padding: 5px;
-            width: 1342px;
-            height: 400px;
-            font: 1em/1.5 Verdana, Sans-Serif;
-            background: #fff;
-            border: 1px solid #f9f9f9;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
         }
 
         #keyboard {
@@ -47,18 +40,20 @@
         }
 
         #keyboard li {
+            border: 2px solid #bdc3c7;
+            color: #34495e;
+            background: #fff;
+            font-family: "Lato", sans-serif;
+
             float: left;
             margin: 0 5px 5px 0;
             width: 80px;
             height: 80px;
             line-height: 80px;
             text-align: center;
-            background: #fff;
-            border: 1px solid #f9f9f9;
             -moz-border-radius: 5px;
             -webkit-border-radius: 5px;
 
-            font-family: 'Courier New';
             font-size: 220%;
 
             -moz-user-select: none;
@@ -66,6 +61,7 @@
             -webkit-user-select: none;
             -o-user-select: none;
         }
+
         .capslock, .tab, .left-shift {
             clear: left;
         }
@@ -79,7 +75,7 @@
         }
 
         #keyboard .return {
-            width: 144px;
+            width: 150px;
         }
 
         #keyboard .left-shift {
@@ -91,7 +87,10 @@
         }
 
         #keyboard .right-at {
-            width: 112px;
+            border: 2px solid #666;
+            width: 118px;
+            background: #e74c3c;
+            color: white;
         }
 
         .lastitem {
@@ -104,7 +103,7 @@
 
         #keyboard .space {
             clear: left;
-            width: 1268px;
+            width: 1295px;
         }
 
         .on {
@@ -115,7 +114,7 @@
             position: relative;
             top: 1px;
             left: 1px;
-            border-color: #e5e5e5;
+            border-color: #e74c3c;
             cursor: pointer;
         }
     </style>
@@ -125,7 +124,19 @@
 
     <h1> <%= res.i18n({phrase: 'welcome_title', locale: lang}) %> </h1>
 
-    <%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <input id="email" type="email""><button id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
+    <div>
+        <%= res.i18n({phrase: 'welcome_description', locale: lang}) %>
+    </div>
+
+    <%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <br/>
+
+    <input id="email" type="text" value="" class="span6" />
+
+    <div class='center'>
+    <div class="span6">
+        <button class="btn btn-large btn-block btn-primary" id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
+    </div>
+    </div>
 
     <div id="container">
         <ul id="keyboard">
@@ -241,7 +252,10 @@
                 if ($this.hasClass('symbol')) character = $('span:visible', $this).html();
                 if ($this.hasClass('space')) character = ' ';
                 if ($this.hasClass('tab')) character = "\t";
-                if ($this.hasClass('return')) character = "\n";
+                if ($this.hasClass('return')) {
+                    $('#submit').click()
+                    character = ''
+                }
 
                 // Uppercase letter
                 if ($this.hasClass('uppercase')) character = character.toUpperCase();
@@ -259,5 +273,20 @@
             });
         });
     </script>
+
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/jquery.stacktable.js"></script>
 </body>
 </html>
