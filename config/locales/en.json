@@ -1,3 +1,7 @@
 {
-  "Hello": "Sup"
+    "button_submit": "Submit",
+
+    "welcome_title": "Conosciamoci.",
+    "welcome_email": "Please Insert your email:"
+
 }

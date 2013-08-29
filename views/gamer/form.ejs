@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><%= title %></title>
+</head>
+
+<body>
+    <div id="table"> </div>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script>
+        var findReq = {where: {}, sort: 'name ASC'};
+
+        $(document).ready(function() {
+            print()
+
+            socket.on('message', function(message) {
+                print()
+            })
+        })
+
+        var print = function () {
+            socket.get('/gamer', findReq, function(response) {
+                createTable(response)
+            })
+        }
+
+        var deleteEntry = function(id) {
+             socket.delete('/gamer/' + id, function (res) {
+                print()
+             })
+        }
+
+        var updateEntry = function(id) {
+            var update = {
+                id: id,
+                email: $('#email_' + id).val(),
+                best: $('#best_' + id).val(),
+                prize1: $('#prize1_' + id).val(),
+                prize2: $('#prize2_' + id).val(),
+                prize3: $('#prize3_' + id).val()
+            }
+            socket.request('/language/update', update, function(res) {
+                print()
+            })
+        }
+
+        var createTable = function (response) {
+            var div = $('#table')
+            var res = '<table style="border-collapse:collapse;" border="1">'
+
+            res = res + "<thead><tr>" +
+                            "<td>" + "ID" + "</td>" +
+                            "<td>" + "Lingua" + "</td>" +
+                            "<td>" + "Codice"  + "</td>" +
+                        "</tr></thead>"
+
+            jQuery.each(response, function(i, language) {
+                res = res +
+                "<tr>" +
+                    '<td>' + language.id + '</td>' +
+                    '<td>' + '<input type="text" id="lang_' + language.id + '" value="' + language.lang + '">' + '</td>' +
+                    '<td>' + '<input type="text" id="code_' + language.id + '" value="' + language.code + '">' + '</td>' +
+                    '<td>' + '<button onclick="deleteEntry(' + language.id + ')">d</button>'  + '</td>' +
+                    '<td>' + '<button onclick="updateEntry(' + language.id + ')">u</button>'  + '</td>' +
+                "</tr>";
+            });
+
+            res = res + "</table>"
+            div.html(res)
+        }
+    </script>
+</body>
+
+</html>

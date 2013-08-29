@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><%= title %></title>
+</head>
+
+<body>
+    <div id="error"> </div>
+    Level: <input type="range" id="level" min="1" max="5" step="1" onchange="updateTextInput(this.value);">
+    <input type="number" id="levelNumber" value="3">
+    <% for(var i in languages) { %>
+        <h2> <%= languages[i].lang %> </h2>
+        <div> Domanda: <input id="<%= languages[i].code %>_question" type="text"> </div>
+        <div> Corretta: <input id="<%= languages[i].code %>_correct" type="text"> </div>
+        <div> Sbagliata: <input id="<%= languages[i].code %>_wrong" type="text"> </div>
+    <% } %>
+    <button id="submit">Submit</button>
+
+    <div id="table"> </div>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script>
+        var findReq = {where: {}};
+        var languagesLang =
+        [
+            <% for(var i in languages) { %>
+                "<%= languages[i].lang %>"
+                <% if(i < (languages.length - 1)) { %>
+                    ,
+                <% }%>
+            <% } %>
+        ]
+        var languagesCode =
+        [
+            <% for(var i in languages) { %>
+                "<%= languages[i].code %>"
+                <% if(i < (languages.length - 1)) { %>
+                    ,
+                <% }%>
+            <% } %>
+        ]
+
+        var rowSpan = <%= languages.length * 3 %>
+
+        $(document).ready(function() {
+            print()
+
+            socket.on('message', function(message) {
+                print()
+            })
+
+            $('#submit').click(function () {
+                var json = {}
+                json['level'] = $('#levelNumber').val()
+                 <% for(var i in languages) { %>
+                json['<%= languages[i].code %>_question'] = $('#<%= languages[i].code %>_question').val()
+                json['<%= languages[i].code %>_correct'] = $('#<%= languages[i].code %>_correct').val()
+                json['<%= languages[i].code %>_wrong'] = $('#<%= languages[i].code %>_wrong').val()
+                <% } %>
+
+                console.log(json)
+                socket.request('/question/create', json, function (response) {
+                    var res = ""
+                    jQuery.each(response.errors, function(i, error) {
+                        res = res + error.message
+                    });
+                    $('#error').html(res)
+                })
+                print();
+            })
+        })
+
+        var print = function () {
+            socket.get('/question', findReq, function(response) {
+                createTable(response)
+            })
+        }
+
+        var deleteEntry = function(id) {
+             socket.delete('/question/' + id, function (res) {
+                print()
+             })
+        }
+
+        var updateEntry = function(id) {
+            var update = {
+                id: id,
+                level: $('#level_' + id).val(),
+                <% for(var i in languages) { %>
+                    <%= languages[i].code %>_question: $('#<%= languages[i].code %>_question_' + id).val(),
+                    <%= languages[i].code %>_correct: $('#<%= languages[i].code %>_correct_' + id).val(),
+                    <%= languages[i].code %>_wrong: $('#<%= languages[i].code %>_wrong_' + id).val(),
+                <% } %>
+            }
+
+            console.log(update)
+            socket.request('/question/update', update, function(res) {
+                print()
+            })
+        }
+
+        var createTable = function (response) {
+            var div = $('#table')
+            var res = '<table style="border-collapse:collapse;" border="1">'
+
+            res = res + "<thead><tr>" +
+                            "<td>" + "ID" + "</td>" +
+                            "<td>" + "Giuste" + "</td>" +
+                            "<td>" + "Sbagliate" + "</td>" +
+                            "<td>" + "Level" + "</td>" +
+                            "<td>" + "Language" + "</td>" +
+                            "<td>" + "Text"  + "</td>" +
+                        "</tr></thead>"
+
+            jQuery.each(response, function(i, question) {
+                res = res +
+                "<tr>" +
+                    '<td rowspan="' + rowSpan + '">' + question.id + '</td>' +
+                    '<td rowspan="' + rowSpan + '">' + question.correct + '</td>' +
+                    '<td rowspan="' + rowSpan + '">' + question.wrong + '</td>' +
+                    '<td rowspan="' + rowSpan + '">' + '<input type="number" id="level_'+ question.id + '" value="' + question.level + '"></td>' +
+                    '<td rowspan="3">' + languagesLang[0]  + '</td>' +
+                    '<td>' + '<input type="text" id="' + languagesCode[0] + '_question_' + question.id + '" value="' + question[languagesCode[0] + '_question'] + '">' + '</td>' +
+                    '<td rowspan="' + rowSpan + '">' + '<button onclick="deleteEntry(' + question.id + ')">d</button>'  + '</td>' +
+                    '<td rowspan="' + rowSpan + '">' + '<button onclick="updateEntry(' + question.id + ')">u</button>'  + '</td>' +
+                "</tr>" +
+                "<tr>" +
+                    '<td>' + '<input type="text" id="' + languagesCode[0] + '_correct_' + question.id + '" value="' + question[languagesCode[0] + '_correct'] + '">' + '</td>' +
+                "</tr>" +
+                "<tr>" +
+                    '<td>' + '<input type="text" id="' + languagesCode[0] + '_wrong_' + question.id + '" value="' + question[languagesCode[0] + '_wrong'] + '">' + '</td>' +
+                "</tr>";
+                for(var i=1; i < languagesCode.length; i++) {
+                    res = res +
+                    "<tr>" +
+                        '<td rowspan="3">' + languagesLang[i]  + '</td>' +
+                        '<td>' + '<input type="text" id="' + languagesCode[i] + '_question_' + question.id + '" value="' + question[languagesCode[i] + '_question'] + '">' + '</td>' +
+                    "</tr>" +
+                    "<tr>" +
+                        '<td>' + '<input type="text" id="' + languagesCode[i] + '_correct_' + question.id + '" value="' + question[languagesCode[i] + '_correct'] + '">' + '</td>' +
+                    "</tr>" +
+                    "<tr>" +
+                        '<td>' + '<input type="text" id="' + languagesCode[i] + '_wrong_' + question.id + '" value="' + question[languagesCode[i] + '_wrong'] + '">' + '</td>' +
+                    "</tr>";
+                }
+            });
+
+            res = res + "</table>"
+            div.html(res)
+        }
+    </script>
+    <script type="text/javascript">
+        function updateTextInput(val) {
+            document.getElementById('levelText').value=val;
+        }
+    </script>
+</body>
+
+</html>
