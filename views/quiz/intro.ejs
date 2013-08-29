@@ -224,9 +224,9 @@
 
                 // Delete
                 if ($this.hasClass('delete')) {
-                    var html = $write.html();
+                    var html = $write.val();
 
-                    $write.html(html.substr(0, html.length - 1));
+                    $write.val(html.substr(0, html.length - 1));
                     return false;
                 }
 
