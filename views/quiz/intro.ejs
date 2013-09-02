@@ -23,9 +23,18 @@
             text-align: center;
         }
 
-        .center {
+        .centerSpan6 {
             margin: 0 auto;
             width: 500px;
+        }
+
+        .centerSpan8 {
+            margin: 0 auto;
+            width: 650px;
+        }
+
+        .colorRed {
+            color: #e74c3c;
         }
 
         #container {
@@ -121,18 +130,23 @@
 </head>
 
 <body>
+    <img src="/images/titolo.png"> </img>
 
-    <h1> <%= res.i18n({phrase: 'welcome_title', locale: lang}) %> </h1>
-
-    <div>
-        <%= res.i18n({phrase: 'welcome_description', locale: lang}) %>
+    <div class='centerSpan8'>
+    <div class="span8">
+        <h2 class="colorRed"><%= res.i18n({phrase: 'welcome_description', locale: lang}) %></h2>
+    </div>
     </div>
 
-    <%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <br/>
+    <div class='centerSpan6'>
+    <div class="span6">
+        <h4 class-="colorRed"><%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <br/></h4>
+    </div>
+    </div>
 
     <input id="email" type="text" value="" class="span6" />
 
-    <div class='center'>
+    <div class='centerSpan6'>
     <div class="span6">
         <button class="btn btn-large btn-block btn-primary" id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
     </div>
