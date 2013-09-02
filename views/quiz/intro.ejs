@@ -23,6 +23,10 @@
             text-align: center;
         }
 
+        .space {
+            margin-top: 50px;
+        }
+
         .centerSpan6 {
             margin: 0 auto;
             width: 500px;
@@ -130,27 +134,26 @@
 </head>
 
 <body>
-    <img src="/images/titolo.png"> </img>
+    <div class="center">
+        <img class="space" width="500px" src="/images/titolo.png"> </img>
+    </div>
 
-    <div class='centerSpan8'>
-    <div class="span8">
+    <div class='centerSpan8' class="span8">
         <h2 class="colorRed"><%= res.i18n({phrase: 'welcome_description', locale: lang}) %></h2>
     </div>
-    </div>
 
-    <div class='centerSpan6'>
-    <div class="span6">
+    <div class='centerSpan6' class="span6">
         <h4 class-="colorRed"><%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <br/></h4>
     </div>
+
+    <div class='centerSpan6' class="span6">
+        <input id="email" type="text" value="" class="span6" />
     </div>
 
-    <input id="email" type="text" value="" class="span6" />
-
-    <div class='centerSpan6'>
-    <div class="span6">
+    <div class='centerSpan6' class="span6">
         <button class="btn btn-large btn-block btn-primary" id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
     </div>
-    </div>
+
 
     <div id="container">
         <ul id="keyboard">
