@@ -1,8 +1,12 @@
 {
     "button_submit": "Submit",
 
-    "welcome_title": "Conosciamoci.",
     "welcome_email": "Please Insert your email:",
-    "welcome_description": "Questo è un gioco di intelletti, devi fare tanto per vincere ancora di più"
+    "welcome_description": "This is a easy game. No rules, no elitism. Take your time, prove to be a man (or a woman)",
 
+    "quiz_email": "You are playing as:",
+    "quiz_best": "Best score so far:",
+    "quiz_prize1": " Prize 1",
+    "quiz_prize2": " Prize 2",
+    "quiz_prize3": " Prize 3"
 }

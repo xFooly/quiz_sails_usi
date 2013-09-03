@@ -47,7 +47,7 @@
                 prize2: $('#prize2_' + id).val(),
                 prize3: $('#prize3_' + id).val()
             }
-            socket.request('/language/update', update, function(res) {
+            socket.request('/gamer/update', update, function(res) {
                 print()
             })
         }
@@ -58,18 +58,24 @@
 
             res = res + "<thead><tr>" +
                             "<td>" + "ID" + "</td>" +
-                            "<td>" + "Lingua" + "</td>" +
-                            "<td>" + "Codice"  + "</td>" +
+                            "<td>" + "Email" + "</td>" +
+                            "<td>" + "Best"  + "</td>" +
+                            "<td>" + "Prize 1"  + "</td>" +
+                            "<td>" + "Prize 2"  + "</td>" +
+                            "<td>" + "Prize 3"  + "</td>" +
                         "</tr></thead>"
 
-            jQuery.each(response, function(i, language) {
+            jQuery.each(response, function(i, gamer) {
                 res = res +
                 "<tr>" +
-                    '<td>' + language.id + '</td>' +
-                    '<td>' + '<input type="text" id="lang_' + language.id + '" value="' + language.lang + '">' + '</td>' +
-                    '<td>' + '<input type="text" id="code_' + language.id + '" value="' + language.code + '">' + '</td>' +
-                    '<td>' + '<button onclick="deleteEntry(' + language.id + ')">d</button>'  + '</td>' +
-                    '<td>' + '<button onclick="updateEntry(' + language.id + ')">u</button>'  + '</td>' +
+                    '<td>' + gamer.id + '</td>' +
+                    '<td>' + '<input type="text" id="email_' + gamer.id + '" value="' + gamer.email + '">' + '</td>' +
+                    '<td>' + '<input type="text" id="best_' + gamer.id + '" value="' + gamer.best + '">' + '</td>' +
+                    '<td>' + '<input type="text" id="prize1_' + gamer.id + '" value="' + ((gamer.prize1)?1:0) + '">' + '</td>' +
+                    '<td>' + '<input type="text" id="prize2_' + gamer.id + '" value="' + ((gamer.prize2)?1:0) + '">' + '</td>' +
+                    '<td>' + '<input type="text" id="prize3_' + gamer.id + '" value="' + ((gamer.prize3)?1:0) + '">' + '</td>' +
+                    '<td>' + '<button onclick="deleteEntry(' + gamer.id + ')">d</button>'  + '</td>' +
+                    '<td>' + '<button onclick="updateEntry(' + gamer.id + ')">u</button>'  + '</td>' +
                 "</tr>";
             });
 

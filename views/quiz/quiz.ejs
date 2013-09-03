@@ -5,69 +5,180 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><%= title %></title>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/jquery.stacktable.js"></script>
+
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/flat-ui.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            background: #eee;
+        }
+
+        .space {
+            margin-top: 40px;
+        }
+
+        .centerButton {
+            margin: 0 auto;
+            width: 460px;
+        }
+
+        .centerSpan6 {
+            margin: 0 auto;
+            width: 500px;
+        }
+
+        .centerSpan12 {
+            margin: 0 auto;
+            width: 1050px;
+        }
+
+        .colorRed {
+            color: #e74c3c;
+        }
+
+
+        .progress {
+            border:1px solid black;
+            width:1000px;
+            height:40px;
+        }
+
+        #prizebar {
+            line-height: 40px;
+        }
+    </style>
 </head>
 
 <body>
-   <div id="user"><%= gamer.email%></div>
-   <div id="best"><%= gamer.best%></div>
-   <table align="center">
-        <tr>
-           <td>
-               <div id="showbar" style="font-size:8pt;padding:2px;border:solid black 1px;visibility:hidden">
-                   <% for(var i=1; i <= numberQuestions; i++) { %>
-                        <span id="progress<%= i %>">&nbsp; &nbsp;</span>
-                   <% } %>
-               </div>
-           </td>
-       </tr>
-       <tr>
-            <td>
-                <img src="/images/padlock_<%= (gamer.prize1)?"open":"closed" %>.png" height="30" width="30"> Premio 1
-            </td>
-       </tr>
-       <tr>
-            <td>
-                <img src="/images/padlock_<%= (gamer.prize2)?"open":"closed" %>.png" height="30" width="30"> Premio 2
-            </td>
-       </tr>
-       <tr>
-            <td>
-                <img src="/images/padlock_<%= (gamer.prize3)?"open":"closed" %>.png" height="30" width="30"> Premio 3
-            </td>
-       </tr>
-   </table>
+   <div class="span12">
+        <div>
+            <%= res.i18n({phrase: 'quiz_email', locale: lang}) %> <span id="email"><%= " " + gamer.email%></span>
+        </div>
+   </div>
 
-   <script language="javascript">
-   var progress = 0;
-   var progressEnd = 30;
-   var progressColor = 'blue'; // set to progress bar color
-   var progressInterval = 1000; // set to time between updates (milli-seconds)
+   <div class="span12" style="margin-bottom:50px">
+        <div>
+            <%= res.i18n({phrase: 'quiz_best', locale: lang}) %> <span id="best"><%= " " + gamer.best%></span>
+        </div>
+   </div>
 
-   var progressAt = progressEnd;
-   var progressTimer;
-   function progress_clear() {
-   for (var i = 1; i <= progressEnd; i++) document.getElementById('progress'+i).style.backgroundColor = 'transparent';
-   progressAt = 0;
-   }
-   function progress_update() {
-   document.getElementById('showbar').style.visibility = 'visible';
-   progressAt++;
-   if (progressAt > progressEnd) progress_clear();
-   else document.getElementById('progress'+progressAt).style.backgroundColor = progressColor;
-   progressTimer = setTimeout('progress_update()',progressInterval);
-   }
-   function progress_stop() {
-   clearTimeout(progressTimer);
-   progress_clear();
-   document.getElementById('showbar').style.visibility = 'hidden';
-   }
-   //progress_update(); // start progress bar
+    <div class="centerSpan12" class="span12">
+       <div class="progress">
+            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
+            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
+            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
+       </div>
+   </div>
 
+   <div class="centerSpan12" class="span12">
+       <div class="progress">
+            <div id="score10" class="bar bar-warning" style="width: 0%;"></div>
+            <div id="score20" class="bar bar-danger" style="width: 0%;"></div>
+            <div id="score30" class="bar" style="width: 0%;"></div>
+       </div>
+   </div>
+
+   <div class="span12">
+       <input type="button" name="b1" value="Start Progress Bar" onClick="progressUpdate()">
+   </div>
+
+
+   <script>
+        $(function() {
+
+        });
+
+        var prize1 = <%= gamer.prize1%>
+        var prize2 = <%= gamer.prize2%>
+        var prize3 = <%= gamer.prize3%>
+        var idGamer = <%= gamer.id%>
+        var forFun =  <%= forFun%>
+        var best = <%= " " + gamer.best%>
+        var current = 0
+        var max = 30
+        var step = 100 / 30
+
+        var add10 = function() {
+            var size = current * step
+            $('#score10').css('width', size + '%')
+        }
+
+        var add20 = function() {
+            var size = (current - 10) * step
+            $('#score20').css('width', size + '%')
+        }
+
+        var add30 = function() {
+            var size = (current - 20) * step
+            $('#score30').css('width', size + '%')
+        }
+
+        var progressUpdate = function() {
+            current++
+            if(current <= max) {
+                if(current < 11) {
+                    add10()
+                } else if(current < 21) {
+                    add20()
+                } else {
+                    add30()
+                    if(current == 30) {
+                        //TODO
+                    }
+                }
+            }
+
+            if(!forFun) {
+                if(current >= 10 || prize1) {
+                    prize1 = true
+                    $('#isPrize1').removeClass('fui-check fui-cross').addClass('fui-check')
+                }
+
+                if(current >= 20 || prize2) {
+                    prize2 = true
+                    $('#isPrize2').removeClass('fui-check fui-cross').addClass('fui-check')
+                }
+
+                if(current >= 30 || prize3) {
+                    prize3 = true
+                    $('#isPrize3').removeClass('fui-check fui-cross').addClass('fui-check')
+                }
+
+                if(current > best) {
+                    best = current
+                    $('#best').html(best)
+                }
+
+                var update = {
+                    id: idGamer,
+                    prize1: prize1,
+                    prize2: prize2,
+                    prize3: prize3,
+                    best: best
+                }
+                socket.request('/gamer/update', update, function(res) {
+
+                })
+            }
+        }
    </script>
-
-   <input type="button" name="b1" value="Start Progress Bar" onClick="progress_update()">
-
-   <input type="button" name="b2" value="Stop Progress Bar" onClick="progress_stop()">
 
 </body>
 </html>

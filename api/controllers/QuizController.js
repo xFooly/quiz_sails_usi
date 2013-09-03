@@ -102,7 +102,9 @@ module.exports = {
                                     title: "Quiz",
                                     questions: quizQuestions,
                                     numberQuestions: 30,
-                                    gamer: gamer[0]
+                                    forFun: false,
+                                    gamer: gamer[0],
+                                    lang: requested
                                 });
                             } else {
                                 res.send('Errore: Non ci sono domande sufficienti nel database');
