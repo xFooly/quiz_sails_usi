@@ -64,7 +64,7 @@ module.exports = {
     },
 
     quiz: function (req, res) {
-        var quizLength = 2;
+        var quizLength = 30;
         Gamer.find().where({email: req.param('email')}).exec(function (err, gamer) {
             if(gamer.length == 0) {
                 res.send('Errore: Email non esiste')

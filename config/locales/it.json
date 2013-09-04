@@ -1,8 +1,13 @@
 {
-    "button_submit": "Submit",
+    "button_submit": "Invia",
 
-    "welcome_title": "Conosciamoci.",
-    "welcome_email": "Please Insert your email:",
-    "welcome_description": "Questo è un gioco di intelletti, devi fare tanto per vincere ancora di più"
+    "welcome_email": "Inserisci la tua email:",
+    "welcome_description": "Questo è un semplice gioco, devi rispondere alle domande cliccando sullo schermo e vincere fantastici premi.",
 
+    "quiz_email": "Stai giocando come:",
+    "quiz_best": "Miglior risultato fino ad ora:",
+    "quiz_prize1": " Premio 1",
+    "quiz_prize2": " Premio 2",
+    "quiz_prize3": " Premio 3",
+    "quiz_difficulty": "Difficoltà"
 }

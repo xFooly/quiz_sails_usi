@@ -39,71 +39,140 @@
             width: 460px;
         }
 
-        .centerSpan6 {
-            margin: 0 auto;
-            width: 500px;
-        }
-
-        .centerSpan12 {
-            margin: 0 auto;
-            width: 1050px;
-        }
-
         .colorRed {
             color: #e74c3c;
         }
 
 
         .progress {
-            border:1px solid black;
-            width:1000px;
+            border:1px solid white;
             height:40px;
         }
 
         #prizebar {
             line-height: 40px;
         }
+
+        .info1 {
+            margin-top:10px;
+            margin-left:10px;
+        }
+
+        .info2 {
+            margin-left:10px;
+        }
+
+        .answerContainer {
+            width:500px;
+            height: 500px;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .answerh1 {
+            width:500px;
+            height: 500px;
+            margin: 0 auto;
+            text-color:red;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
 <body>
-   <div class="span12">
-        <div>
-            <%= res.i18n({phrase: 'quiz_email', locale: lang}) %> <span id="email"><%= " " + gamer.email%></span>
+     <div class="info1">
+        <%= res.i18n({phrase: 'quiz_email', locale: lang}) %> <span id="email"><%= " " + gamer.email%></span>
+    </div>
+
+    <div class="info2">
+        <%= res.i18n({phrase: 'quiz_best', locale: lang}) %> <span id="best"><%= " " + gamer.best%></span>
+    </div>
+
+    <div class="container" style="margin-top:35px;">
+        <div class="row demo-row">
+            <div class="span12">
+               <div class="progress">
+                    <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
+                    <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
+                    <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
+               </div>
+           </div>
+
+           <div class="span12">
+               <div class="progress">
+                    <div id="score10" class="bar bar-warning" style="width: 0%;"></div>
+                    <div id="score20" class="bar bar-danger" style="width: 0%;"></div>
+                    <div id="score30" class="bar" style="width: 0%;"></div>
+               </div>
+           </div>
         </div>
-   </div>
-
-   <div class="span12" style="margin-bottom:50px">
-        <div>
-            <%= res.i18n({phrase: 'quiz_best', locale: lang}) %> <span id="best"><%= " " + gamer.best%></span>
         </div>
-   </div>
 
-    <div class="centerSpan12" class="span12">
-       <div class="progress">
-            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
-            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
-            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
+       <div class="container" style="margin-top:0px;">
+           <div class="row-fluid" style="margin-bottom:30px;">
+               <div class="span12" style="text-align:center;">
+                    <h1 id="question"></h1>
+               </div>
+           </div>
+
+           <div class="row-fluid">
+                <div class="answerContainer" style="border-right:1px solid white">
+                    <h1 class="answerh1" id="answer1"></h1>
+                </div>
+                <div class="answerContainer" style="border-left:1px solid white">
+                    <h1 class="answerh1" id="answer2"></h1>
+                </div>
+           </div>
        </div>
-   </div>
 
-   <div class="centerSpan12" class="span12">
-       <div class="progress">
-            <div id="score10" class="bar bar-warning" style="width: 0%;"></div>
-            <div id="score20" class="bar bar-danger" style="width: 0%;"></div>
-            <div id="score30" class="bar" style="width: 0%;"></div>
+       <div class="container" style="margin-top:50px;">
+           <div class="row-fluid">
+                <div class="span12" style="text-align:center;">
+                    <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
+                </div>
+           </div>
+           <div class="row-fluid">
+               <div class="span6 offset3">
+                    <div class="span1 offset3">
+                        <a id="level1" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:20px;">&ensp;</a>
+                    </div>
+                    <div class="span1">
+                        <a id="level2" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:50px;">&ensp;</a>
+                    </div>
+                    <div class="span1">
+                        <a id="level3" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:80px;">&ensp;</a>
+                    </div>
+                    <div class="span1">
+                        <a id="level4" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:110px;">&ensp;</a>
+                    </div>
+                    <div class="span1">
+                        <a id="level5" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:140px;">&ensp;</a>
+                    </div>
+                    <div class="span1">
+                        <a id="level6" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:170px;">&ensp;</a>
+                    </div>
+               </div>
+           </div>
        </div>
-   </div>
-
-   <div class="span12">
-       <input type="button" name="b1" value="Start Progress Bar" onClick="progressUpdate()">
-   </div>
-
 
    <script>
         $(function() {
+            loadQuestion()
 
+            $('#answer1').click(function () {
+                checkQuestion(0)
+            })
+
+            $('#answer2').click(function () {
+                checkQuestion(1)
+            })
         });
+
+        var currentCorrect = 0;
+        var questions = <%- JSON.stringify(questions)%>
 
         var prize1 = <%= gamer.prize1%>
         var prize2 = <%= gamer.prize2%>
@@ -112,8 +181,55 @@
         var forFun =  <%= forFun%>
         var best = <%= " " + gamer.best%>
         var current = 0
-        var max = 30
-        var step = 100 / 30
+        var max = <%= numberQuestions%>
+        var step = 100 / max
+
+        var loadQuestion = function() {
+            $('#question').html(questions[current].question)
+
+            var level = questions[current].level
+            $('#level1').css('background-color', '#ebedef')
+            $('#level2').css('background-color', '#ebedef')
+            $('#level3').css('background-color', '#ebedef')
+            $('#level4').css('background-color', '#ebedef')
+            $('#level5').css('background-color', '#ebedef')
+            $('#level6').css('background-color', '#ebedef')
+
+            if(level >= 1)
+                $('#level1').css('background-color', '#2980B9')
+            if(level >= 2)
+                $('#level2').css('background-color', '#16A085')
+            if(level >= 3)
+                $('#level3').css('background-color', '#2ECC71')
+            if(level >= 4)
+                $('#level4').css('background-color', '#F1C40F')
+            if(level >= 5)
+                $('#level5').css('background-color', '#E67E22')
+            if(level >= 6)
+                $('#level6').css('background-color', '#E74C3C')
+
+            currentCorrect =  Math.floor(Math.random()*2)
+            if(currentCorrect == 0) {
+                $('#answer1').html(questions[current].correct)
+                $('#answer2').html(questions[current].wrong)
+            } else {
+                $('#answer1').html(questions[current].wrong)
+                $('#answer2').html(questions[current].correct)
+            }
+        }
+
+        var checkQuestion = function(button) {
+            if(currentCorrect == button) {
+                progressUpdate()
+                if(current > max) {
+                    //TODO
+                } else {
+                    loadQuestion()
+                }
+            } else {
+
+            }
+        }
 
         var add10 = function() {
             var size = current * step
