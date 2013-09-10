@@ -9,5 +9,6 @@
     "quiz_prize1": " Premio 1",
     "quiz_prize2": " Premio 2",
     "quiz_prize3": " Premio 3",
-    "quiz_difficulty": "Difficoltà"
+    "quiz_difficulty": "Difficoltà",
+    "quiz_questionNumber": "Domanda numero: "
 }
