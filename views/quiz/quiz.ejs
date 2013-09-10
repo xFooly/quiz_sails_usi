@@ -62,21 +62,9 @@
             margin-left:10px;
         }
 
-        .answerContainer {
-            width:500px;
+        #answer1, #answer2 {
             height: 500px;
             text-align: center;
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        .answerh1 {
-            width:500px;
-            height: 500px;
-            margin: 0 auto;
-            text-color:red;
-            text-align: center;
-            display: table-cell;
             vertical-align: middle;
         }
     </style>
@@ -97,32 +85,38 @@
 
             <div class="span10">
                 <div class="row-fluid">
-                    <div class="progress">
-                        <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
-                        <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
-                        <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
-                   </div>
-                </div>
-
-                <div class="row-fluid">
-                    <div class="progress">
-                        <div id="score10" class="bar bar-warning" style="width: 0%;"></div>
-                        <div id="score20" class="bar bar-danger" style="width: 0%;"></div>
-                        <div id="score30" class="bar" style="width: 0%;"></div>
+                    <div class="span12">
+                        <div class="progress">
+                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
+                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
+                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
+                       </div>
                     </div>
                 </div>
 
                 <div class="row-fluid">
-                    <h1 id="question"></h1>
+                    <div class="span12">
+                        <div class="progress">
+                            <div id="score10" class="bar bar-warning" style="width: 0%;"></div>
+                            <div id="score20" class="bar bar-danger" style="width: 0%;"></div>
+                            <div id="score30" class="bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row-fluid">
+                <div class="row-fluid" style="margin-bottom: 20px;">
+                    <div class="span12">
+                        <a class="btn btn-large btn-block btn-primary" id="question"></a>
+                    </div>
+                </div>
+
+                <div class="row-fluid" style="margin-bottom: 20px;">
                     <div class="span6">
-                        <h1 class="answerh1" id="answer1"></h1>
+                        <a class="btn btn-large btn-block btn-primary" id="answer1" ></a>
                     </div>
 
                     <div class="span6">
-                        <h1 class="answerh1" id="answer2"></h1>
+                        <a class="btn btn-large btn-block btn-primary" id="answer2" ></a>
                     </div>
                 </div>
 
@@ -130,6 +124,8 @@
                     <div class="span12" style="text-align:center;">
                         <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
                     </div>
+                </div>
+                <div class="row-fluid">
                     <div class="span12">
                         <div class="span1 offset3">
                             <a id="level1" href="#fakelink" class="btn btn-large btn-block btn-primary" style="height:20px;">&ensp;</a>
