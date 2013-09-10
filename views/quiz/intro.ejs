@@ -149,28 +149,36 @@
             border-color: #e74c3c;
             cursor: pointer;
         }
+
+        .email {
+
+        }
     </style>
 </head>
 
 <body>
-    <div class="center">
+    <div class="container">
         <img class="space" width="500px" src="/images/titolo.png"> </img>
     </div>
 
-    <div class='centerSpan12' class="span12 ">
+    <div class="container ">
         <h2 class="colorRed"><%= res.i18n({phrase: 'welcome_description', locale: lang}) %></h2>
-    </div>
-
-    <div class='centerSpan6' class="span6">
         <h4 class-="colorRed"><%= res.i18n({phrase: 'welcome_email', locale: lang}) %> <br/></h4>
-    </div>
 
-    <div class='centerSpan6' class="span6">
-        <input id="email" type="text" value="" class="span6" />
-    </div>
+        <div class="row-fluid">
+            <div class="span3 offset3">
+                <input id="email" type="text" value=""/>
+            </div>
+            <div class="span3">
+                <h3 class="email_completion" class="span3"> @gmail.com </h3>
+            </div>
+        </div>
 
-    <div class='centerButton' class="span6">
-        <button class="btn btn-large btn-block btn-primary" id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
+         <div class="row-fluid">
+            <div class="span6 offset3">
+                <button class="btn btn-large btn-block btn-primary" id="submit"><%= res.i18n({phrase: 'button_submit', locale: lang}) %></button>
+            </div>
+        </div>
     </div>
 
 
