@@ -45,7 +45,7 @@
             -o-user-select: none;
         }
 
-        #tutorial, #emailBox, #bestBox, #dailyTry {
+        #tutorial, #emailBox, #bestBox, #dailyTry, #quitButton {
             width: 500px;
             height: 70px;
             text-align: center;
@@ -72,12 +72,8 @@
             display: table-cell;
         }
 
-
-        #rules, #answer1, #answer2 {
-            height: 580px;
-        }
-
         #rules {
+            height: 490px;
             width: 500px;
             text-align: center;
             vertical-align: middle;
@@ -106,6 +102,7 @@
             font-size: 30px;
             line-height:1;
 
+            height: 580px;
             width:2000px;
             text-align: center;
             vertical-align: middle;
@@ -117,7 +114,7 @@
             -o-user-select: none;
         }
 
-        #answer1, #answer2, #tutorial {
+        #answer1, #answer2, #tutorial, #quitButton {
             background-color: #f76c5c;
             border: 1px solid gray;
             box-shadow: 3px 3px 3px #aaa;
@@ -280,6 +277,14 @@
                     <div class="row-fluid" style="margin-bottom: 20px;" data-step="7" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step7', locale: lang}) %>">
                         <a class="btn btn-large btn-block btn-primary" id="rules">
                             <%= res.i18n({phrase: 'quiz_rules', locale: lang}) %>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="row-fluid">
+                        <a class="btn btn-large btn-block btn-primary" id="quitButton">
+                            <%= res.i18n({phrase: 'quiz_quit', locale: lang}) %>
                         </a>
                     </div>
                 </div>
