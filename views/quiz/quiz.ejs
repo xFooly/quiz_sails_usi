@@ -12,54 +12,66 @@
     <script type="text/javascript" src="/js/sails.io.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
 
-    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="js/jquery.ui.touch-punch.min.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/bootstrap-switch.js"></script>
-    <script src="js/flatui-checkbox.js"></script>
-    <script src="js/flatui-radio.js"></script>
-    <script src="js/jquery.tagsinput.js"></script>
-    <script src="js/jquery.placeholder.js"></script>
-    <script src="js/jquery.stacktable.js"></script>
+    <script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap-select.js"></script>
+    <script src="/js/bootstrap-switch.js"></script>
+    <script src="/js/flatui-checkbox.js"></script>
+    <script src="/js/flatui-radio.js"></script>
+    <script src="/js/jquery.tagsinput.js"></script>
+    <script src="/js/jquery.placeholder.js"></script>
+    <script src="/js/jquery.stacktable.js"></script>
+
+    <script src="/js/intro.js"></script>
 
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/css/flat-ui.css" rel="stylesheet">
+    <link href="/css/introjs.css" rel="stylesheet">
+    <link href="/css/introjs-rtl.css" rel="stylesheet">
 
     <style type="text/css">
         body {
             background: #eee;
         }
 
-        .space {
-            margin-top: 40px;
-        }
-
-        .centerButton {
-            margin: 0 auto;
-            width: 460px;
-        }
-
-        .colorRed {
-            color: #e74c3c;
-        }
-
-
         .progress {
             border:1px solid white;
-            height:40px;
+            height:45px;
+        }
+
+        #tutorial, #emailBox, #bestBox, #dailyTry {
+            width: 500px;
+            height: 70px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        #emailBox, #bestBox, #dailyTry, #rules, #answer1, #answer2 {
+            background-color: #bbb;
         }
 
         #prizebar {
             line-height: 40px;
         }
 
-        .info1 {
-            margin-top:10px;
-            margin-left:10px;
+        #question, #regolamentoButton {
+            height:100px;
         }
 
-        .info2 {
-            margin-left:10px;
+        #regolamentoButton {
+            width: 500px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        #rules {
+            height: 500px;
+            width: 500px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
         }
 
         #question {
@@ -68,7 +80,6 @@
             line-height:1;
 
             width:2000px;
-            height: 100px;
             text-align: center;
             vertical-align: middle;
             display: table-cell;
@@ -146,19 +157,36 @@
     <div class="container-fluid" style="margin-top:35px;">
         <div class="row-fluid">
             <div class="span2">
-                 <div class="info1">
-                    <%= res.i18n({phrase: 'quiz_email', locale: lang}) %> <span id="email"><%= " " + gamer.email%></span>
+                <div class="row-fluid" style="margin-bottom: 15px;">
+                    <a id="tutorial" class="btn btn-large btn-block btn-primary" onclick="javascript:introJs().start();"><%= res.i18n({phrase: 'quiz_tutorial', locale: lang}) %></a>
                 </div>
 
-                <div class="info2">
-                    <%= res.i18n({phrase: 'quiz_best', locale: lang}) %> <span id="best"><%= " " + gamer.best%></span>
+                <div class="row-fluid" style="margin-bottom: 5px;">
+                    <a class="btn btn-large btn-block btn-primary" id="emailBox">
+                        <%= res.i18n({phrase: 'quiz_email', locale: lang}) %>
+                        <span id="email"><%= " " + gamer.email%></span>
+                    </a>
+                </div>
+
+                <div class="row-fluid" style="margin-bottom: 5px;">
+                    <a class="btn btn-large btn-block btn-primary" id="emailBox">
+                        <%= res.i18n({phrase: 'quiz_best', locale: lang}) %>
+                        <span id="best"><%= " " + gamer.best%></span>
+                    </a>
+                </div>
+
+                <div class="row-fluid"">
+                    <a class="btn btn-large btn-block btn-primary" id="dailyTry">
+                        <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
+                        <span id="daily"><%= " "%></span>
+                    </a>
                 </div>
             </div>
 
             <div class="span10">
                 <div class="row-fluid">
                     <div class="span12">
-                        <div class="progress">
+                        <div class="progress" data-step="1" data-intro="ciao">
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
@@ -168,7 +196,7 @@
 
                 <div class="row-fluid" style="margin-bottom: 20px;">
                     <div class="span12">
-                        <div class="progress">
+                        <div class="progress" data-step="2" data-intro="ciao ancora">
                             <div id="score10" class="bar bar-success" style="background-color: #2ECC71; width: 0%;"></div>
                             <div id="score20" class="bar bar-success" style="background-color: #F1C40F; width: 0%;"></div>
                             <div id="score30" class="bar bar-success" style="background-color: #E67E22; width: 0%;"></div>
@@ -178,11 +206,17 @@
 
                 <div class="row-fluid">
                    <div class="span12" style="text-align:center;">
-                        <h4><%= res.i18n({phrase: 'quiz_questionNumber', locale: lang}) %></h4> <h4></h4>
+                        <h4 style="display:inline"><%= res.i18n({phrase: 'quiz_questionNumber', locale: lang}) %></h4> <h4 style="display:inline" id="questionNumber"></h4>
                    </div>
                 </div>
 
                 <div class="row-fluid">
+                   <div class="span12" style="text-align:center;">
+                        <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
+                   </div>
+                </div>
+
+                <div class="row-fluid" style="margin-bottom:30px">
                     <div class="span12">
                         <div id="difficultyLevel">
                             <a id="level1" class="btn btn-large btn-block btn-primary">1</a>
@@ -194,13 +228,27 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="row-fluid" style="margin-bottom:30px">
-                   <div class="span12" style="text-align:center;">
-                        <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
-                   </div>
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="row-fluid" style="margin-bottom: 20px;">
+                    <a class="btn btn-large btn-block btn-primary" id="regolamentoButton">
+                        <%= res.i18n({phrase: 'quiz_ruleTitle', locale: lang}) %>
+                    </a>
                 </div>
 
+                <div class="row-fluid">
+                    <div class="row-fluid" style="margin-bottom: 20px;">
+                        <a class="btn btn-large btn-block btn-primary" id="rules">
+                            <%= res.i18n({phrase: 'quiz_rules', locale: lang}) %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span10">
                 <div class="row-fluid" style="margin-bottom: 20px;">
                     <div class="span12">
                         <a class="btn btn-large btn-block btn-primary" id="question"></a>
@@ -247,15 +295,16 @@
         var step = 100 / max
 
         var loadQuestion = function() {
+            $("#questionNumber").html('&nbsp;' + (current + 1) + '/' + 30)
             $('#question').html(questions[current].question)
 
             var level = questions[current].level
-            $('#level1').css('background-color', '#ebedef')
-            $('#level2').css('background-color', '#ebedef')
-            $('#level3').css('background-color', '#ebedef')
-            $('#level4').css('background-color', '#ebedef')
-            $('#level5').css('background-color', '#ebedef')
-            $('#level6').css('background-color', '#ebedef')
+            $('#level1').css('background-color', '#bbb')
+            $('#level2').css('background-color', '#bbb')
+            $('#level3').css('background-color', '#bbb')
+            $('#level4').css('background-color', '#bbb')
+            $('#level5').css('background-color', '#bbb')
+            $('#level6').css('background-color', '#bbb')
 
             if(level >= 1)
                 $('#level1').css('background-color', '#2ECC71')
