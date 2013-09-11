@@ -47,6 +47,10 @@
             display: table-cell;
         }
 
+        #tutorial {
+            background-color: #2ECC71;
+        }
+
         #emailBox, #bestBox, #dailyTry, #rules, #answer1, #answer2 {
             background-color: #bbb;
         }
@@ -96,6 +100,8 @@
         }
 
         #answer1, #answer2 {
+            background-color: #2ECC71;
+
             font-family: "Lato", sans-serif;
             font-size: 30px;
             line-height:1;
@@ -275,6 +281,19 @@
         $(function() {
             loadQuestion()
 
+            if(firstTime) {
+                introJs().start()
+
+                var update = {
+                    id: idGamer,
+                    firstLogin: false
+                }
+
+                socket.request('/gamer/update', update, function(res) {
+                    //error
+                })
+            }
+
             $('#answer1').click(function () {
                 checkQuestion(0)
             })
@@ -287,6 +306,7 @@
         var currentCorrect = 0;
         var questions = <%- JSON.stringify(questions)%>
 
+        var firstTime = <%= gamer.firstLogin %>
         var prize1 = <%= gamer.prize1%>
         var prize2 = <%= gamer.prize2%>
         var prize3 = <%= gamer.prize3%>
@@ -403,8 +423,9 @@
                     prize3: prize3,
                     best: best
                 }
-                socket.request('/gamer/update', update, function(res) {
 
+                socket.request('/gamer/update', update, function(res) {
+                    //error
                 })
             }
         }

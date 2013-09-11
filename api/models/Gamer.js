@@ -24,6 +24,11 @@ module.exports = {
           defaultsTo: 0
       },
 
+      firstLogin: {
+          type: "boolean",
+          defaultsTo: true
+      },
+
       prize1: {
           type: 'boolean',
           defaultsTo: false
