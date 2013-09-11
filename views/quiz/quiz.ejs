@@ -27,7 +27,6 @@
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/css/flat-ui.css" rel="stylesheet">
     <link href="/css/introjs.css" rel="stylesheet">
-    <link href="/css/introjs-rtl.css" rel="stylesheet">
 
     <style type="text/css">
         body {
@@ -167,6 +166,27 @@
             line-height: 70px;
         }
 
+        .introjs-tooltip {
+            max-width: 350px;
+            width: 350px;
+            text-align:center;
+            font-size: 20px;
+        }
+
+        .introjs-skipbutton, .introjs-prevbutton, .introjs-nextbutton {
+             font-size:20px;
+             height:30px;
+             line-height:30px;
+
+             text-align:center;
+             vertical-align: middle;
+        }
+
+        .introjs-skipbutton {
+            margin-right: 60px;
+        }
+
+
     </style>
 </head>
 
@@ -174,7 +194,7 @@
     <div class="container-fluid" style="margin-top:35px;">
         <div class="row-fluid">
             <div class="span2">
-                <div class="row-fluid" style="margin-bottom: 15px;">
+                <div class="row-fluid" style="margin-bottom: 15px;" data-step="1" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step1', locale: lang}) %>">
                     <a id="tutorial" class="btn btn-large btn-block btn-primary" onclick="javascript:introJs().start();"><%= res.i18n({phrase: 'quiz_tutorial', locale: lang}) %></a>
                 </div>
 
@@ -203,7 +223,7 @@
             <div class="span10">
                 <div class="row-fluid">
                     <div class="span12">
-                        <div class="progress" data-step="1" data-intro="ciao">
+                        <div class="progress" data-step="2" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step2', locale: lang}) %>">
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
                             <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
@@ -213,7 +233,7 @@
 
                 <div class="row-fluid" style="margin-bottom: 20px;">
                     <div class="span12">
-                        <div class="progress" data-step="2" data-intro="ciao ancora">
+                        <div class="progress" data-step="3" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step3', locale: lang}) %>">
                             <div id="score10" class="bar bar-success" style="background-color: #2ECC71; width: 0%;"></div>
                             <div id="score20" class="bar bar-success" style="background-color: #F1C40F; width: 0%;"></div>
                             <div id="score30" class="bar bar-success" style="background-color: #E67E22; width: 0%;"></div>
@@ -233,7 +253,7 @@
                    </div>
                 </div>
 
-                <div class="row-fluid" style="margin-bottom:30px">
+                <div class="row-fluid" style="margin-bottom:30px" data-step="4" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step4', locale: lang}) %>">
                     <div class="span12">
                         <div id="difficultyLevel">
                             <a id="level1" class="btn btn-large btn-block btn-primary">1</a>
@@ -257,7 +277,7 @@
                 </div>
 
                 <div class="row-fluid">
-                    <div class="row-fluid" style="margin-bottom: 20px;">
+                    <div class="row-fluid" style="margin-bottom: 20px;" data-step="7" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step7', locale: lang}) %>">
                         <a class="btn btn-large btn-block btn-primary" id="rules">
                             <%= res.i18n({phrase: 'quiz_rules', locale: lang}) %>
                         </a>
@@ -266,13 +286,13 @@
             </div>
 
             <div class="span10">
-                <div class="row-fluid" style="margin-bottom: 20px;">
+                <div class="row-fluid" style="margin-bottom: 20px;" data-step="5" data-position="top" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step5', locale: lang}) %>">
                     <div class="span12">
                         <a class="btn btn-large btn-block btn-primary" id="question"></a>
                     </div>
                 </div>
 
-                <div class="row-fluid" style="margin-bottom: 20px;">
+                <div class="row-fluid" style="margin-bottom: 20px;" data-step="6" data-position="top" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step6', locale: lang}) %>">
                     <div class="span6">
                         <a class="btn btn-large btn-block btn-primary" id="answer1" ></a>
                     </div>

@@ -14,5 +14,13 @@
     "quiz_tutorial": "Clicca Qui per visualizzare il tutorial",
     "quiz_dailyTry": "Tentativo giornaliero numero:",
     "quiz_ruleTitle": "Regolamento",
-    "quiz_rules": "mille regole..."
+    "quiz_rules": "mille regole...",
+
+    "quiz_tutorial_step1": "Benvenuto! <br/><br/> Vedo che è la prima volta che giochi, segui il tutorial per saperne di più. <br/><br/> Puoi interrompere il tutorial in qualsiasi momento e rileggerlo più tardi cliccando sul pulsante evidenziato. Clicca Next per proseguire.",
+    "quiz_tutorial_step2": "Questa barra rappresenta quali premi hai già vinto e per quali stai partecipando alle estrazioni giornaliere.",
+    "quiz_tutorial_step3": "Questa barra rappresenta il tuo progresso attuale nel gioco.",
+    "quiz_tutorial_step4": "Ogni domanda ha un livello di difficoltà associato valutato in una scala da 1 a 6. <br/><br/>Il <span style='color:green'>Verde</span> simboleggia domande facili. <br/><br/> Il <span style='color:orange'>Giallo</span> simboleggia domande intermedie. <br/><br/> Il <span style='color:red'>Verde</span> simboleggia domande difficili.",
+    "quiz_tutorial_step5": "Qui potrai leggere le domande.",
+    "quiz_tutorial_step6": "Qui potrai leggere le risposte. Clicca sulla risposta corretta!",
+    "quiz_tutorial_step7": "In questo riquadro trovi il regolamento del gioco, mi raccomando leggilo. <br/><br/> Buona fortuna!"
 }
