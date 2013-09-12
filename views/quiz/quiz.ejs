@@ -126,7 +126,7 @@
             text-align: center;
         }
 
-        #level1, #level2, #level3, #level4, #level5, #level6 {
+        #level1, #level2, #level3 {
             width: 80px;
             margin-top: 0px;
             padding: 0px;
@@ -139,26 +139,11 @@
         }
 
         #level2 {
-            height: 30px;
-            line-height: 30px;
+            height: 45px;
+            line-height: 45px;
         }
 
         #level3 {
-            height: 40px;
-            line-height: 40px;
-        }
-
-        #level4 {
-            height: 50px;
-            line-height: 50px;
-        }
-
-        #level5 {
-            height: 60px;
-            line-height: 60px;
-        }
-
-        #level6 {
             height: 70px;
             line-height: 70px;
         }
@@ -256,9 +241,6 @@
                             <a id="level1" class="btn btn-large btn-block btn-primary">1</a>
                             <a id="level2" class="btn btn-large btn-block btn-primary">2</a>
                             <a id="level3" class="btn btn-large btn-block btn-primary">3</a>
-                            <a id="level4" class="btn btn-large btn-block btn-primary">4</a>
-                            <a id="level5" class="btn btn-large btn-block btn-primary">5</a>
-                            <a id="level6" class="btn btn-large btn-block btn-primary">6 </a>
                         </div>
                     </div>
                 </div>
@@ -336,13 +318,20 @@
             })
         });
 
+        var finished = false;
         var currentCorrect = 0;
         var questions = <%- JSON.stringify(questions)%>
+        var gamer = <%- JSON.stringify(gamer) %>
 
+        var today = "<%= today %>"
         var firstTime = <%= gamer.firstLogin %>
+        var attempt = <%= lottery.attempt %>
         var prize1 = <%= gamer.prize1%>
+        var lottery1 = <%= lottery.lottery1 %>
         var prize2 = <%= gamer.prize2%>
+        var lottery1 = <%= lottery.lottery1 %>
         var prize3 = <%= gamer.prize3%>
+        var lottery3 = <%= lottery.lottery1 %>
         var idGamer = <%= gamer.id%>
         var forFun =  <%= forFun%>
         var best = <%= " " + gamer.best%>
@@ -365,15 +354,9 @@
             if(level >= 1)
                 $('#level1').css('background-color', '#2ECC71')
             if(level >= 2)
-                $('#level2').css('background-color', '#2ECC71')
+                $('#level2').css('background-color', '#F1C40F')
             if(level >= 3)
-                $('#level3').css('background-color', '#F1C40F')
-            if(level >= 4)
-                $('#level4').css('background-color', '#F1C40F')
-            if(level >= 5)
-                $('#level5').css('background-color', '#E67E22')
-            if(level >= 6)
-                $('#level6').css('background-color', '#E67E22')
+                $('#level3').css('background-color', '#E67E22')
 
             currentCorrect =  Math.floor(Math.random()*2)
             if(currentCorrect == 0) {
@@ -388,7 +371,7 @@
         var checkQuestion = function(button) {
             if(currentCorrect == button) {
                 progressUpdate()
-                if(current > max) {
+                if(current >= max) {
                     //TODO
                 } else {
                     loadQuestion()
@@ -414,52 +397,98 @@
         }
 
         var progressUpdate = function() {
-            current++
-            if(current <= max) {
-                if(current < 11) {
-                    add10()
-                } else if(current < 21) {
-                    add20()
-                } else {
-                    add30()
-                    if(current == 30) {
-                        //TODO
+            if (!finished) {
+                current++
+                if(current == 30) {
+                    finished = true
+                }
+
+                if(current <= max) {
+                    if(current < 11) {
+                        add10()
+                    } else if(current < 21) {
+                        add20()
+                    } else {
+                        add30()
                     }
                 }
-            }
 
-            if(!forFun) {
-                if(current >= 10 || prize1) {
-                    prize1 = true
-                    $('#isPrize1').removeClass('fui-check fui-cross').addClass('fui-check')
+                if(!forFun) {
+                    if (current == 10 && !prize1) {
+                        socket.request('/ticket/create', {
+                                prize: 1,
+                                email: gamer.email
+                            }, function(res) {
+
+                            var update = {
+                                id: idGamer
+                            }
+                            gamer[today].lottery1 = true
+                            update[today] = gamer[today]
+
+                            socket.request('/gamer/update', update, function(res) {
+                            })
+                        })
+                        alert('Hai raggiunto 10 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 1')
+                    }
+
+                    if (current == 20 && !prize2 ) {
+                        socket.request('/ticket/create', {
+                                prize: 2,
+                                email: gamer.email
+                            }, function(res) {
+
+                            var update = {
+                                id: idGamer
+                            }
+                            gamer[today].lottery2 = true
+                            update[today] = gamer[today]
+
+                            socket.request('/gamer/update', update, function(res) {
+                            })
+                        })
+                        alert('Hai raggiunto 20 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 2')
+                    }
+                    if (current == 30 && !prize3) {
+                        var update = {
+                            id: idGamer
+                        }
+
+                        gamer[today].lottery3 = true
+                        update[today] = gamer[today]
+
+                        socket.request('/ticket/create', {
+                                prize: 3,
+                                email: gamer.email
+                            }, function(res) {
+
+                            var update = {
+                                id: idGamer
+                            }
+                            gamer[today].lottery3 = true
+                            update[today] = gamer[today]
+
+                            socket.request('/gamer/update', update, function(res) {
+                            })
+                        })
+
+                        alert('Hai raggiunto 30 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 3')
+                    }
+
+                    if(current > best) {
+                        best = current
+                        $('#best').html(best)
+                    }
+
+                    var update = {
+                        id: idGamer,
+                        best: best
+                    }
+
+                    socket.request('/gamer/update', update, function(res) {
+                        //error
+                    })
                 }
-
-                if(current >= 20 || prize2) {
-                    prize2 = true
-                    $('#isPrize2').removeClass('fui-check fui-cross').addClass('fui-check')
-                }
-
-                if(current >= 30 || prize3) {
-                    prize3 = true
-                    $('#isPrize3').removeClass('fui-check fui-cross').addClass('fui-check')
-                }
-
-                if(current > best) {
-                    best = current
-                    $('#best').html(best)
-                }
-
-                var update = {
-                    id: idGamer,
-                    prize1: prize1,
-                    prize2: prize2,
-                    prize3: prize3,
-                    best: best
-                }
-
-                socket.request('/gamer/update', update, function(res) {
-                    //error
-                })
             }
         }
    </script>

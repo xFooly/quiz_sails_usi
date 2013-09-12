@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><%= title %></title>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sails.io.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap-select.js"></script>
+    <script src="/js/bootstrap-switch.js"></script>
+    <script src="/js/flatui-checkbox.js"></script>
+    <script src="/js/flatui-radio.js"></script>
+    <script src="/js/jquery.tagsinput.js"></script>
+    <script src="/js/jquery.placeholder.js"></script>
+    <script src="/js/jquery.stacktable.js"></script>
+
+    <script src="/js/intro.js"></script>
+
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/flat-ui.css" rel="stylesheet">
+    <link href="/css/introjs.css" rel="stylesheet">
+
+    <style type="text/css">
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid" style="margin-top:35px;">
+        <div class="row-fluid" style="margin-bottom:30px;">
+            <div class="span4 offset4">
+                    <a id="draw" class="btn btn-large btn-block btn-primary">Clicca per estrarre</a>
+            </div>
+        </div>
+
+        <div class="row-fluid" style="margin-bottom:5px;">
+            <div class="span4">
+                <div class="tile">
+                    <h3>Vincitori premio 1</h3>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <h3>Vincitori premio 2</h3>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <h3>Vincitori premio 3</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid" style="margin-bottom:30px;">
+            <div class="span4">
+                <div class="tile">
+                    <ul id="winner1"></ul>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <ul id="winner2"></ul>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <ul id="winner3"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid" style="margin-bottom:5px;">
+            <div class="span4">
+                <div class="tile">
+                    <h3>Partecipanti premio 1</h3>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <h3>Partecipanti premio 2</h3>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <h3>Partecipanti premio 3</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span4">
+                <div class="tile">
+                    <ul>
+                        <% for(var key in p1Pool) { %>
+                            <li>
+                                <%= p1Pool[key].email %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <ul>
+                        <% for(var key in p2Pool) { %>
+                            <li>
+                                <%= p2Pool[key].email %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="tile">
+                    <ul>
+                        <% for(var key in p3Pool) { %>
+                            <li>
+                                <%= p3Pool[key].email %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $('#draw').click(function() {
+                socket.request('/estrai', {}, function(res) {
+
+                    $('#winner1').html(res.p1Win)
+                    $('#winner2').html(res.p2Win)
+                    $('#winner3').html(res.p3Win)
+                })
+            })
+        });
+
+   </script>
+
+</body>
+</html>

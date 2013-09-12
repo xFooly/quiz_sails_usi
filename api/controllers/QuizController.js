@@ -65,6 +65,13 @@ module.exports = {
 
     quiz: function (req, res) {
         var quizLength = 30 ;
+        var level1 = 10;
+        var level2 = 10;
+        var level3 = 10;
+
+        var today = new Date()
+        var stringToday = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
+
         Gamer.find().where({email: req.param('email')}).exec(function (err, gamer) {
             if(gamer.length == 0) {
                 res.send('Errore: Email non esiste')
@@ -80,35 +87,81 @@ module.exports = {
                     }
 
                     if(isSupported) {
-                        Question.find().done(function (err, questions) {
-                            if(quizLength <= questions.length) {
-                                var quizQuestions = []
+                        Question.find().where({level:1}).exec(function (err, level1Questions) {
+                            Question.find().where({level:2}).exec(function (err, level2Questions) {
+                                Question.find().where({level:3}).exec(function (err, level3Questions) {
+                                    var quizQuestions = []
 
-                                while(quizLength > 0) {
-                                    var rand = Math.floor(Math.random() * questions.length)
-                                    var q = {
-                                        id: questions[rand]['id'],
-                                        level: questions[rand]['level'],
-                                        question: questions[rand][requested + '_question'],
-                                        correct: questions[rand][requested + '_correct'],
-                                        wrong: questions[rand][requested + '_wrong']
+                                    while(level1 > 0) {
+                                        var rand = Math.floor(Math.random() * level1Questions.length)
+
+                                        var q = {
+                                            id: level1Questions[rand]['id'],
+                                            level: level1Questions[rand]['level'],
+                                            question: level1Questions[rand][requested + '_question'],
+                                            correct: level1Questions[rand][requested + '_correct'],
+                                            wrong: level1Questions[rand][requested + '_wrong']
+                                        }
+                                        level1Questions.splice(rand,1)
+                                        quizQuestions.push(q)
+                                        level1--
                                     }
-                                    questions.splice(rand,1)
-                                    quizQuestions.push(q)
-                                    quizLength--
-                                }
 
-                                res.view('./quiz/quiz.ejs', {
-                                    title: "Quiz",
-                                    questions: quizQuestions,
-                                    numberQuestions: 30,
-                                    forFun: false,
-                                    gamer: gamer[0],
-                                    lang: requested
-                                });
-                            } else {
-                                res.send('Errore: Non ci sono domande sufficienti nel database');
-                            }
+                                    while(level2 > 0) {
+                                        var rand = Math.floor(Math.random() * level2Questions.length)
+                                        var q = {
+                                            id: level2Questions[rand]['id'],
+                                            level: level2Questions[rand]['level'],
+                                            question: level2Questions[rand][requested + '_question'],
+                                            correct: level2Questions[rand][requested + '_correct'],
+                                            wrong: level2Questions[rand][requested + '_wrong']
+                                        }
+                                        level2Questions.splice(rand,1)
+                                        quizQuestions.push(q)
+                                        level2--
+                                    }
+
+                                    while(level3 > 0) {
+                                        var rand = Math.floor(Math.random() * level3Questions.length)
+                                        var q = {
+                                            id: level3Questions[rand]['id'],
+                                            level: level3Questions[rand]['level'],
+                                            question: level3Questions[rand][requested + '_question'],
+                                            correct: level3Questions[rand][requested + '_correct'],
+                                            wrong: level3Questions[rand][requested + '_wrong']
+                                        }
+                                        level3Questions.splice(rand,1)
+                                        quizQuestions.push(q)
+                                        level3--
+                                    }
+
+                                    var player = gamer[0]
+
+                                    if(player[stringToday] == undefined) {
+                                        player[stringToday] = {
+                                            attempt: 1,
+                                            lottery1: false,
+                                            lottery2: false,
+                                            lottery3: false
+                                        }
+                                    } else {
+                                        player[stringToday].attempt++
+                                    }
+
+                                    player.save(function() {
+                                        res.view('./quiz/quiz.ejs', {
+                                            title: "Quiz",
+                                            questions: quizQuestions,
+                                            numberQuestions: 30,
+                                            forFun: false,
+                                            gamer: player,
+                                            lang: requested,
+                                            today: stringToday,
+                                            lottery: player[stringToday]
+                                        });
+                                    })
+                                })
+                            })
                         })
                     } else {
                         res.send('Errore: Il linguaggio non è supportato')
