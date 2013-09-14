@@ -24,9 +24,9 @@ module.exports = {
   },
 
   estrai: function (req, res) {
-      var maxP1 = 4
-      var maxP2 = 4
-      var maxP3 = 4
+      var maxP1 = 2
+      var maxP2 = 2
+      var maxP3 = 2
 
       Ticket.find().where({prize:1}).exec(function (err, p1Ticket) {
           Ticket.find().where({prize:2}).exec(function (err, p2Ticket) {

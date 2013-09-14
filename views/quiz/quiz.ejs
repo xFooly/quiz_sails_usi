@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/js/socket.io.js"></script>
     <script type="text/javascript" src="/js/sails.io.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/soundmanager2.js"></script>
 
     <script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="/js/jquery.ui.touch-punch.min.js"></script>
@@ -183,7 +184,7 @@
                 <div class="row-fluid" style="margin-bottom: 5px;">
                     <a class="btn btn-large btn-block btn-primary" id="emailBox">
                         <%= res.i18n({phrase: 'quiz_email', locale: lang}) %>
-                        <span id="email"><%= " " + gamer.email%></span>
+                        <span id="email"><%= " " + (gamer.email).substr(0, (gamer.email).indexOf('@'))%></span>
                     </a>
                 </div>
 
@@ -196,8 +197,12 @@
 
                 <div class="row-fluid"">
                     <a class="btn btn-large btn-block btn-primary" id="dailyTry">
-                        <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
-                        <span id="daily"><%= " "%></span>
+                        <% if(lottery.attempt <= 3) { %>
+                            <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
+                            <span id="daily"><%= lottery.attempt %> /3</span>
+                        <% } else { %>
+                            <%= res.i18n({phrase: 'quiz_dailyTryExpired', locale: lang}) %>
+                        <% } %>
                     </a>
                 </div>
             </div>
@@ -230,17 +235,29 @@
                 </div>
 
                 <div class="row-fluid">
-                   <div class="span12" style="text-align:center;">
-                        <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
-                   </div>
-                </div>
+                    <div class="span6">
+                         <div class="row-fluid">
+                            <div class="span12" style="text-align:center;">
+                                <h4><%= res.i18n({phrase: 'quiz_difficulty', locale: lang}) %></h4>
+                            </div>
+                         </div>
 
-                <div class="row-fluid" style="margin-bottom:30px" data-step="4" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step4', locale: lang}) %>">
-                    <div class="span12">
-                        <div id="difficultyLevel">
-                            <a id="level1" class="btn btn-large btn-block btn-primary">1</a>
-                            <a id="level2" class="btn btn-large btn-block btn-primary">2</a>
-                            <a id="level3" class="btn btn-large btn-block btn-primary">3</a>
+                         <div class="row-fluid" style="margin-bottom:30px" data-step="4" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step4', locale: lang}) %>">
+                             <div class="span12">
+                                 <div id="difficultyLevel">
+                                     <a id="level1" class="btn btn-large btn-block btn-primary">1</a>
+                                     <a id="level2" class="btn btn-large btn-block btn-primary">2</a>
+                                     <a id="level3" class="btn btn-large btn-block btn-primary">3</a>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div class="span6">
+                        <div class="row-fluid" style="margin-top:30px" onclick="read()" data-step="4" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step4', locale: lang}) %>">
+                            <div class="span12" style="text-align:center; color: #bdc3c7">
+                                <h1><span class="fui-volume" style="font-size:50px;"></span></h1>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -292,8 +309,59 @@
         </div>
     </div>
 
+    <div id="p1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3><%=  res.i18n({phrase: 'quiz_modalCongrats', locale: lang}) %></h3>
+            </div>
+        <div class="modal-body">
+            <p><%=  res.i18n({phrase: 'quiz_modal1', locale: lang}) %></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+        </div>
+    </div>
+
+    <div id="p2Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3><%=  res.i18n({phrase: 'quiz_modalCongrats', locale: lang}) %></h3>
+            </div>
+        <div class="modal-body">
+            <p><%=  res.i18n({phrase: 'quiz_modal2', locale: lang}) %></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+        </div>
+    </div>
+
+    <div id="p3Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3><%=  res.i18n({phrase: 'quiz_modalCongrats', locale: lang}) %></h3>
+            </div>
+        <div class="modal-body">
+            <p><%=  res.i18n({phrase: 'quiz_modal3', locale: lang}) %></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+        </div>
+    </div>
+
     <script>
         $(function() {
+            soundManager.setup({
+              url: '/swf/',
+              preferFlash: false,
+              onready: function() {
+                console.log('Sound manager ready')
+              }
+            });
+
+            if(attempt > 3) {
+                forFun = true;
+            }
+
             loadQuestion()
 
             if(firstTime) {
@@ -318,6 +386,9 @@
             })
         });
 
+        var lang = "<%= lang %>"
+        var voicerss = 'http://api.voicerss.org/?key=8972ea7e369f47059a7cd94813444b1e&hl=&src='
+
         var finished = false;
         var currentCorrect = 0;
         var questions = <%- JSON.stringify(questions)%>
@@ -333,11 +404,42 @@
         var prize3 = <%= gamer.prize3%>
         var lottery3 = <%= lottery.lottery1 %>
         var idGamer = <%= gamer.id%>
-        var forFun =  <%= forFun%>
+        var forFun = false
         var best = <%= " " + gamer.best%>
         var current = 0
         var max = <%= numberQuestions%>
         var step = 100 / max
+        var incremental = 0
+
+        var read = function () {
+            var languageCode = ""
+
+            if(lang == 'it') {
+                languageCode = "it-it"
+            } else {
+
+            }
+
+            soundManager.createSound({id: 'question_' + incremental, url: 'http://api.voicerss.org/?key=8972ea7e369f47059a7cd94813444b1e&hl=' + languageCode + '&src=' +  $('#question').html() });
+            soundManager.createSound({id: 'answer1_' + incremental, url: 'http://api.voicerss.org/?key=8972ea7e369f47059a7cd94813444b1e&hl=' + languageCode + '&src=' +  $('#answer1').html() });
+            soundManager.createSound({id: 'answer2_' + incremental, url: 'http://api.voicerss.org/?key=8972ea7e369f47059a7cd94813444b1e&hl=' + languageCode + '&src=' +  $('#answer2').html() });
+
+            soundManager.play('question_' + incremental,{
+                multiShotEvents: true,
+                onfinish: function() {
+                    soundManager.play('answer1_' + incremental, {
+                        multiShotEvents: true,
+                        onfinish:function() {
+                            soundManager.play('answer2_' + incremental, {
+                                onfinish: function(){
+                                    incremental++
+                                }
+                            })
+                        }
+                    })
+                }
+            });
+        }
 
         var loadQuestion = function() {
             $("#questionNumber").html('&nbsp;' + (current + 1) + '/' + 30)
@@ -429,7 +531,7 @@
                             socket.request('/gamer/update', update, function(res) {
                             })
                         })
-                        alert('Hai raggiunto 10 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 1')
+                        $('#p1Modal').modal()
                     }
 
                     if (current == 20 && !prize2 ) {
@@ -447,7 +549,7 @@
                             socket.request('/gamer/update', update, function(res) {
                             })
                         })
-                        alert('Hai raggiunto 20 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 2')
+                        $('#p2Modal').modal()
                     }
                     if (current == 30 && !prize3) {
                         var update = {
@@ -472,7 +574,7 @@
                             })
                         })
 
-                        alert('Hai raggiunto 30 risposte corrette, hai appena aumentato le tue possibilità di vincere il premio 3')
+                        $('#p3Modal').modal()
                     }
 
                     if(current > best) {

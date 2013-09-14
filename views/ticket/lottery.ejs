@@ -143,10 +143,26 @@
         $(function() {
             $('#draw').click(function() {
                 socket.request('/estrai', {}, function(res) {
+                    var content = ''
+                    $('#winner1').html('')
+                    for(var key in res.p1Win) {
+                        content += '<li>' + res.p1Win[key] + '</li>'
+                    }
+                    $('#winner1').html(content)
 
-                    $('#winner1').html(res.p1Win)
-                    $('#winner2').html(res.p2Win)
-                    $('#winner3').html(res.p3Win)
+                    var content = ''
+                    $('#winner2').html('')
+                    for(var key in res.p2Win) {
+                        content += '<li>' + res.p2Win[key] + '</li>'
+                    }
+                    $('#winner2').html(content)
+
+                    var content = ''
+                    $('#winner3').html('')
+                    for(var key in res.p3Win) {
+                        content += '<li>' + res.p3Win[key] + '</li>'
+                    }
+                    $('#winner3').html(content)
                 })
             })
         });
