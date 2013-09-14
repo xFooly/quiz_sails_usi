@@ -254,7 +254,7 @@
                     </div>
 
                     <div class="span6">
-                        <div class="row-fluid" style="margin-top:30px" onclick="read()" data-step="4" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step4', locale: lang}) %>">
+                        <div class="row-fluid" style="margin-top:30px" onclick="read()">
                             <div class="span12" style="text-align:center; color: #bdc3c7">
                                 <h1><span class="fui-volume" style="font-size:50px;"></span></h1>
                             </div>
@@ -350,6 +350,10 @@
 
     <script>
         $(function() {
+            $(this).bind("contextmenu", function(e) {
+                e.preventDefault();
+            });
+
             soundManager.setup({
               url: '/swf/',
               preferFlash: false,

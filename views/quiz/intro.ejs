@@ -245,6 +245,10 @@
         var mail = "@gmail.com"
 
         $(function(){
+            $(this).bind("contextmenu", function(e) {
+                e.preventDefault();
+            });
+
             var $write = $('#email'),
                 shift = false,
                 capslock = false;
