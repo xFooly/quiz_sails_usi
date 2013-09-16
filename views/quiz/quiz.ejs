@@ -70,7 +70,7 @@
         }
 
         #rules {
-            height: 580px;
+            height: 700px;
             width: 500px;
             text-align: center;
             vertical-align: middle;
@@ -191,7 +191,7 @@
                     </a>
                 </div>
 
-                <div class="row-fluid"">
+                <div class="row-fluid" style="margin-bottom: 13px;">
                     <a class="btn btn-large btn-block btn-primary" id="dailyTry">
                         <% if(lottery.attempt <= 3) { %>
                             <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
@@ -200,6 +200,21 @@
                             <%= res.i18n({phrase: 'quiz_dailyTryExpired', locale: lang}) %>
                         <% } %>
                     </a>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="row-fluid" style="margin-bottom: 20px;" data-step="7" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step7', locale: lang}) %>">
+                        <a class="btn btn-large btn-block btn-primary" id="rules" style="text-align:center">
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules1', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules2', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_cat1', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_cat2', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_cat3', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules3', locale: lang}) %></div>
+                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules4', locale: lang}) %></div>
+                            <div><%= res.i18n({phrase: 'quiz_rules5', locale: lang}) %></div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -257,31 +272,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row-fluid">
-            <div class="span2">
-                <div class="row-fluid" style="margin-bottom: 20px;">
-                    <a class="btn btn-large btn-block btn-primary" id="regolamentoButton">
-                        <%= res.i18n({phrase: 'quiz_ruleTitle', locale: lang}) %>
-                    </a>
-                </div>
-
-                <div class="row-fluid">
-                    <div class="row-fluid" style="margin-bottom: 20px;" data-step="7" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step7', locale: lang}) %>">
-                        <a class="btn btn-large btn-block btn-primary" id="rules" style="text-align:center">
-                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules1', locale: lang}) %></div>
-                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules2', locale: lang}) %></div>
-                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules3', locale: lang}) %></div>
-                            <div style="margin-bottom:15px;"><%= res.i18n({phrase: 'quiz_rules4', locale: lang}) %></div>
-                            <div><%= res.i18n({phrase: 'quiz_rules5', locale: lang}) %></div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="span10">
                 <div class="row-fluid" style="margin-bottom: 20px;" data-step="5" data-position="top" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step5', locale: lang}) %>">
                     <div class="span12">
                         <a class="btn btn-large btn-block btn-primary" id="question"></a>
@@ -377,27 +368,27 @@
             })
 
             if (<%= gamer[today].lottery1 %>) {
-                $('#p1ShowBar').css('background-color', '#F1C40F')
+                $('#p1ShowBar').css('background-color', '#9b59b6')
             }
 
             if (<%= gamer.prize1 %>) {
-                $('#p1ShowBar').css('background-color', '#2ECC71')
+                $('#p1ShowBar').css('background-color', '#3498db')
             }
 
             if (<%= gamer[today].lottery2 %>) {
-                $('#p2ShowBar').css('background-color', '#F1C40F')
+                $('#p2ShowBar').css('background-color', '#9b59b6')
             }
 
             if (<%= gamer.prize2 %>) {
-                $('#p2ShowBar').css('background-color', '#2ECC71')
+                $('#p2ShowBar').css('background-color', '#3498db')
             }
 
             if (<%= gamer[today].lottery3 %>) {
-                $('#p3ShowBar').css('background-color', '#F1C40F')
+                $('#p3ShowBar').css('background-color', '#9b59b6')
             }
 
             if (<%= gamer.prize3 %>) {
-                $('#p3ShowBar').css('background-color', '#2ECC71')
+                $('#p3ShowBar').css('background-color', '#3498db')
             }
 
             $(this).bind("contextmenu", function(e) {
@@ -589,6 +580,7 @@
 
                         socket.request('/gamer/update', update, function(res) {})
                         $('#p1Modal').modal()
+                        $('#p1ShowBar').css('background-color', '#9b59b6')
                     }
 
                     if (current == 20 && !prize2 ) {
@@ -605,6 +597,7 @@
 
                         socket.request('/gamer/update', update, function(res) {})
                         $('#p2Modal').modal()
+                        $('#p2ShowBar').css('background-color', '#9b59b6')
                     }
                     if (current == 30 && !prize3) {
                         var update = {
@@ -627,6 +620,7 @@
 
                         socket.request('/gamer/update', update, function(res) {})
                         $('#p3Modal').modal()
+                        $('#p3ShowBar').css('background-color', '#9b59b6')
                     }
 
                     if(current > best) {

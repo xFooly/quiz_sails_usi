@@ -29,44 +29,55 @@ module.exports = {
       if(winners.p1Win == undefined || winners.p2Win == undefined || winners.p3Win == undefined) {
           res.json({status: false})
       } else {
-          winnersEmail = []
+          var text = ""
+          var today = new Date();
+
+          text += "Giorno: " + today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear() + '\n'
+          text += "Lista dei vincitori per categoria\n\n"
+
+          text += "Categoria 1: \n"
+
           for(var key in winners.p1Win) {
               Gamer.findOne().where({email: winners.p1Win[key]}).exec(function (err, gamer) {
-                  winnersEmail.push({email: winners.p1Win[key], prize: 1})
+                  text += ' -  ' + winners.p1Win[key] + '\n'
 
                   gamer.prize1 = true;
 
                   gamer.save(function(res) {})
 
-//                  server.send({
-//                      text:    "Ciao hai vinto il premio 1",
-//                      from:    googleEmail.sender,
-//                      to:      "<" + winners.p1Win[key] + ">",
-//                      subject: "Vincitore Concorso Conoscimi"
-//                  }, function(err, message) { console.log(err || message); });
+                  server.send({
+                      text:    "Ciao hai vinto il premio 1",
+                      from:    googleEmail.sender,
+                      to:      "<" + winners.p1Win[key] + ">",
+                      subject: "Vincitore Concorso Conoscimi"
+                  }, function(err, message) { console.log(err || message); });
               })
           }
 
+          text += '\n\n\n Categoria 2: \n'
+
           for(var key in winners.p2Win) {
               Gamer.findOne().where({email: winners.p2Win[key]}).exec(function (err, gamer) {
-                  winnersEmail.push({email: winners.p2Win[key], prize: 2})
+                  text += ' -  ' + winners.p2Win[key] + '\n'
 
                   gamer.prize2 = true;
 
                   gamer.save(function(res) {})
 
-//                  server.send({
-//                      text:    "Ciao hai vinto il premio 2",
-//                      from:    googleEmail.sender,
-//                      to:      "<" + winners.p2Win[key] + ">",
-//                      subject: "Vincitore Concorso Conoscimi"
-//                  }, function(err, message) { console.log(err || message); });
+                  server.send({
+                      text:    "Ciao hai vinto il premio 2",
+                      from:    googleEmail.sender,
+                      to:      "<" + winners.p2Win[key] + ">",
+                      subject: "Vincitore Concorso Conoscimi"
+                  }, function(err, message) { console.log(err || message); });
               })
           }
 
+          text += '\n\n\n Categoria 3: \n'
+
           for(var key in winners.p3Win) {
               Gamer.findOne().where({email: winners.p3Win[key]}).exec(function (err, gamer) {
-                  winnersEmail.push({email: winners.p3Win[key], prize: 3})
+                  text += ' -  ' + winners.p3Win[key] + '\n'
 
                   gamer.prize3 = true;
 
@@ -80,6 +91,14 @@ module.exports = {
 //                  }, function(err, message) { console.log(err || message); });
               })
           }
+
+          server.send({
+              text:    text,
+              from:    googleEmail.sender,
+              to:      "<nicole.bandion@usi.ch>",
+              subject: "Reminder quotidiano: Vincitori concorso conoscimi"
+          }, function(err, message) { console.log(err || message); });
+
 
           Ticket.find().exec(function (err, tickets) {
               tickets.forEach(function(entry) {

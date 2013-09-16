@@ -145,39 +145,73 @@
         </div>
     </div>
 
+    <div id="finishModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Operazione completata</h3>
+            </div>
+        <div class="modal-body">
+            <p>Per sicurezza aspetta qualche minuto, per lasciare che tutte le email vengano inviate prima di spegnere il programma</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+        </div>
+    </div>
+
     <script>
         var winners = {}
 
+        var deleteEntry = function(id,key) {
+            if(id == 1) {
+                winners.p1Win.splice(key,1)
+            } else if(id == 2) {
+                winners.p2Win.splice(key,1)
+            } else if(id == 3) {
+                winners.p3Win.splice(key,1)
+            }
+
+            drawAll()
+        }
+
+        var drawAll = function() {
+            var content = ''
+            $('#winner1').html('')
+            for(var key in winners.p1Win) {
+                content += '<li><span>' + winners.p1Win[key] + '</span><span style="margin-left:10px;" onclick="deleteEntry(1,' + key + ')" class="fui-cross"></span></li>'
+            }
+            $('#winner1').html(content)
+
+            var content = ''
+            $('#winner2').html('')
+            for(var key in winners.p2Win) {
+                content += '<li><span>' + winners.p2Win[key] + '</span><span style="margin-left:10px;" onclick="deleteEntry(2,' + key + ')" class="fui-cross"></span></li>'
+            }
+            $('#winner2').html(content)
+
+            var content = ''
+            $('#winner3').html('')
+            for(var key in winners.p3Win) {
+                content += '<li><span>' + winners.p3Win[key] + '</span><span style="margin-left:10px;" onclick="deleteEntry(3,' + key + ')" class="fui-cross"></span></li>'
+            }
+            $('#winner3').html(content)
+        }
+
         $(function() {
+            $('#finishModal').on('hide', function () {
+                window.location = "http://localhost:1337/lottery"
+            })
+
             $('#draw').click(function() {
                 socket.request('/estrai', {}, function(res) {
                     winners = res;
-
-                    var content = ''
-                    $('#winner1').html('')
-                    for(var key in res.p1Win) {
-                        content += '<li>' + res.p1Win[key] + '</li>'
-                    }
-                    $('#winner1').html(content)
-
-                    var content = ''
-                    $('#winner2').html('')
-                    for(var key in res.p2Win) {
-                        content += '<li>' + res.p2Win[key] + '</li>'
-                    }
-                    $('#winner2').html(content)
-
-                    var content = ''
-                    $('#winner3').html('')
-                    for(var key in res.p3Win) {
-                        content += '<li>' + res.p3Win[key] + '</li>'
-                    }
-                    $('#winner3').html(content)
+                    drawAll()
                 })
             })
 
             $('#winner').click(function() {
                 socket.request('/winner', winners, function(res) { console.log(res)})
+
+                $('#finishModal').modal()
             })
         });
 
