@@ -157,7 +157,8 @@ module.exports = {
                                             gamer: player,
                                             lang: requested,
                                             today: stringToday,
-                                            lottery: player[stringToday]
+                                            lottery: player[stringToday],
+                                            address: "http://localhost:1337/welcome/" + requested
                                         });
                                     })
                                 })

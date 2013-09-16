@@ -58,10 +58,6 @@
             background-color: #bbb;
         }
 
-        #prizebar {
-            line-height: 40px;
-        }
-
         #question, #regolamentoButton {
             height:100px;
         }
@@ -211,9 +207,9 @@
                 <div class="row-fluid">
                     <div class="span12">
                         <div class="progress" data-step="2" data-position="bottom" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step2', locale: lang}) %>">
-                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"> <span id="isPrize1" class="<%= (gamer.prize1)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
-                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"><span id="isPrize2" class="<%= (gamer.prize2)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
-                            <div class="bar bar-success" id="prizebar" style="font-size:140%; width: 33.33333333333333%;"><span id="isPrize3" class="<%= (gamer.prize3)?"fui-check":"fui-cross" %>"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
+                            <div id="p1ShowBar" class="bar bar-success" style="line-height: 40px;font-size:140%; width: 33.33333333333333%;"> <span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize1', locale: lang}) %></span></div>
+                            <div id="p2ShowBar" class="bar bar-success" style="line-height: 40px;font-size:140%; width: 33.33333333333333%;border-right:1px solid white; border-left:1px solid white"></span><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize2', locale: lang}) %></span></div>
+                            <div id="p3ShowBar" class="bar bar-success" style="line-height: 40px;font-size:140%; width: 33.33333333333333%;"><span style="font-size:110%"><%= res.i18n({phrase: 'quiz_prize3', locale: lang}) %></span></div>
                        </div>
                     </div>
                 </div>
@@ -318,7 +314,7 @@
             <p><%=  res.i18n({phrase: 'quiz_modal1', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
         </div>
     </div>
 
@@ -331,7 +327,7 @@
             <p><%=  res.i18n({phrase: 'quiz_modal2', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
         </div>
     </div>
 
@@ -344,12 +340,70 @@
             <p><%=  res.i18n({phrase: 'quiz_modal3', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+        </div>
+    </div>
+
+    <div id="moreTriesModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3><%=  res.i18n({phrase: 'quiz_tooMany', locale: lang}) %></h3>
+            </div>
+        <div class="modal-body">
+            <p><%=  res.i18n({phrase: 'quiz_modalTries', locale: lang}) %></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+        </div>
+    </div>
+
+    <div id="errorModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3><%=  res.i18n({phrase: 'quiz_modalErrorTitle', locale: lang}) %></h3>
+            </div>
+        <div class="modal-body">
+            <p><%=  res.i18n({phrase: 'quiz_modalErrorContent', locale: lang}) %></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
         </div>
     </div>
 
     <script>
         $(function() {
+            $('#errorModal').on('hide', function () {
+                window.location = "<%= address %>"
+            })
+
+            $('#p3Modal').on('hide', function () {
+                window.location = "<%= address %>"
+            })
+
+            if (<%= gamer[today].lottery1 %>) {
+                $('#p1ShowBar').css('background-color', '#F1C40F')
+            }
+
+            if (<%= gamer.prize1 %>) {
+                $('#p1ShowBar').css('background-color', '#2ECC71')
+            }
+
+            if (<%= gamer[today].lottery2 %>) {
+                $('#p2ShowBar').css('background-color', '#F1C40F')
+            }
+
+            if (<%= gamer.prize2 %>) {
+                $('#p2ShowBar').css('background-color', '#2ECC71')
+            }
+
+            if (<%= gamer[today].lottery3 %>) {
+                $('#p3ShowBar').css('background-color', '#F1C40F')
+            }
+
+            if (<%= gamer.prize3 %>) {
+                $('#p3ShowBar').css('background-color', '#2ECC71')
+            }
+
             $(this).bind("contextmenu", function(e) {
                 e.preventDefault();
             });
@@ -388,6 +442,10 @@
             $('#answer2').click(function () {
                 checkQuestion(1)
             })
+
+            if(attempt > 3) {
+                $('#moreTriesModal').modal()
+            }
         });
 
         var lang = "<%= lang %>"
@@ -483,7 +541,7 @@
                     loadQuestion()
                 }
             } else {
-
+                $('#errorModal').modal()
             }
         }
 
@@ -524,17 +582,16 @@
                         socket.request('/ticket/create', {
                                 prize: 1,
                                 email: gamer.email
-                            }, function(res) {
+                            }, function(res) {})
+                        var update = {
+                            id: idGamer
+                        }
+                        gamer[today].lottery1 = true
+                        update[today] = gamer[today]
 
-                            var update = {
-                                id: idGamer
-                            }
-                            gamer[today].lottery1 = true
-                            update[today] = gamer[today]
+                        console.log(update)
 
-                            socket.request('/gamer/update', update, function(res) {
-                            })
-                        })
+                        socket.request('/gamer/update', update, function(res) {})
                         $('#p1Modal').modal()
                     }
 
@@ -542,17 +599,15 @@
                         socket.request('/ticket/create', {
                                 prize: 2,
                                 email: gamer.email
-                            }, function(res) {
+                            }, function(res) {})
 
-                            var update = {
-                                id: idGamer
-                            }
-                            gamer[today].lottery2 = true
-                            update[today] = gamer[today]
+                        var update = {
+                            id: idGamer
+                        }
+                        gamer[today].lottery2 = true
+                        update[today] = gamer[today]
 
-                            socket.request('/gamer/update', update, function(res) {
-                            })
-                        })
+                        socket.request('/gamer/update', update, function(res) {})
                         $('#p2Modal').modal()
                     }
                     if (current == 30 && !prize3) {
@@ -566,18 +621,15 @@
                         socket.request('/ticket/create', {
                                 prize: 3,
                                 email: gamer.email
-                            }, function(res) {
+                            }, function(res) {})
 
-                            var update = {
-                                id: idGamer
-                            }
-                            gamer[today].lottery3 = true
-                            update[today] = gamer[today]
+                        var update = {
+                            id: idGamer
+                        }
+                        gamer[today].lottery3 = true
+                        update[today] = gamer[today]
 
-                            socket.request('/gamer/update', update, function(res) {
-                            })
-                        })
-
+                        socket.request('/gamer/update', update, function(res) {})
                         $('#p3Modal').modal()
                     }
 

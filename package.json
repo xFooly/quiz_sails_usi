@@ -1,5 +1,5 @@
 {
-    "name": "quiz_sails_usi/",
+    "name": "quiz_sails_usi",
     "private": true,
     "version": "0.0.0",
     "description": "a Sails application",
@@ -8,7 +8,8 @@
         "grunt": "0.4.1",
         "sails-disk": "~0.9.0",
         "ejs": "0.8.4",
-        "optimist": "0.3.4"
+        "optimist": "0.3.4",
+        "emailjs": "0.3.4"
     },
     "scripts": {
         "start": "node app.js",

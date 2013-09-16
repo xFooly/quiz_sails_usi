@@ -36,6 +36,11 @@ module.exports.routes = {
     view: 'home/index'
   },
 
+  '/winner': {
+      controller: 'ticket',
+      action: 'winners'
+  },
+
   'get /estingui': {
       controller: 'ticket',
       action: 'estingui'
