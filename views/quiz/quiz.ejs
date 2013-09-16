@@ -70,7 +70,7 @@
         }
 
         #rules {
-            height: 490px;
+            height: 580px;
             width: 500px;
             text-align: center;
             vertical-align: middle;
@@ -270,16 +270,12 @@
 
                 <div class="row-fluid">
                     <div class="row-fluid" style="margin-bottom: 20px;" data-step="7" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step7', locale: lang}) %>">
-                        <a class="btn btn-large btn-block btn-primary" id="rules">
-                            <%= res.i18n({phrase: 'quiz_rules', locale: lang}) %>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="row-fluid">
-                    <div class="row-fluid">
-                        <a class="btn btn-large btn-block btn-primary" id="quitButton">
-                            <%= res.i18n({phrase: 'quiz_quit', locale: lang}) %>
+                        <a class="btn btn-large btn-block btn-primary" id="rules" style="text-align: left">
+                            <div style="margin-bottom:12px;"><%= res.i18n({phrase: 'quiz_rules1', locale: lang}) %></div>
+                            <div style="margin-bottom:12px;"><%= res.i18n({phrase: 'quiz_rules2', locale: lang}) %></div>
+                            <div style="margin-bottom:12px;"><%= res.i18n({phrase: 'quiz_rules3', locale: lang}) %></div>
+                            <div style="margin-bottom:12px;"><%= res.i18n({phrase: 'quiz_rules4', locale: lang}) %></div>
+                            <div><%= res.i18n({phrase: 'quiz_rules5', locale: lang}) %></div>
                         </a>
                     </div>
                 </div>
