@@ -34,6 +34,14 @@
             background: #eee;
         }
 
+        .colorRed {
+            color: #e74c3c;
+        }
+
+        .colorGreen {
+            color: #2ECC71;
+        }
+
         .progress {
             border:1px solid white;
             height:45px;
@@ -155,6 +163,7 @@
         .introjs-skipbutton, .introjs-prevbutton, .introjs-nextbutton {
              font-size:20px;
              height:30px;
+             width: 70px;
              line-height:30px;
 
              text-align:center;
@@ -162,10 +171,21 @@
         }
 
         .introjs-skipbutton {
-            margin-right: 60px;
+            margin-right: 30px;
         }
 
+        .modal {
+            width: 800px;
+            margin-left: -400px;
+        }
 
+        .modal-body {
+            height:400px;
+            text-align:center;
+
+            vertical-align: middle;
+            display: table-cell;
+        }
     </style>
 </head>
 
@@ -174,7 +194,7 @@
         <div class="row-fluid">
             <div class="span2">
                 <div class="row-fluid" style="margin-bottom: 15px;" data-step="1" data-position="right" data-intro="<%= res.i18n({phrase: 'quiz_tutorial_step1', locale: lang}) %>">
-                    <a id="tutorial" class="btn btn-large btn-block btn-primary" onclick="javascript:introJs().start();"><%= res.i18n({phrase: 'quiz_tutorial', locale: lang}) %></a>
+                    <a id="tutorial" class="btn btn-large btn-block btn-primary" onclick="javascript:startTutorial();"><%= res.i18n({phrase: 'quiz_tutorial', locale: lang}) %></a>
                 </div>
 
                 <div class="row-fluid" style="margin-bottom: 5px;">
@@ -301,7 +321,7 @@
             <p><%=  res.i18n({phrase: 'quiz_modal1', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" style="background-color:#2ECC71;">Chiudi</a>
         </div>
     </div>
 
@@ -314,7 +334,7 @@
             <p><%=  res.i18n({phrase: 'quiz_modal2', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" style="background-color:#2ECC71;">Chiudi</a>
         </div>
     </div>
 
@@ -327,17 +347,18 @@
             <p><%=  res.i18n({phrase: 'quiz_modal3', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" style="background-color:#2ECC71;">Chiudi</a>
         </div>
     </div>
 
     <div id="moreTriesModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3><%=  res.i18n({phrase: 'quiz_tooMany', locale: lang}) %></h3>
+                <h1 class="colorRed"><%=  res.i18n({phrase: 'quiz_tooMany', locale: lang}) %></h1>
             </div>
         <div class="modal-body">
-            <p><%=  res.i18n({phrase: 'quiz_modalTries', locale: lang}) %></p>
+            <p style="font-size:200%; margin-bottom:30px;"><%=  res.i18n({phrase: 'quiz_modalTries1', locale: lang}) %></p>
+            <p style="font-size:200%;"><%=  res.i18n({phrase: 'quiz_modalTries2', locale: lang}) %></p>
         </div>
         <div class="modal-footer">
             <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Chiudi</a>
@@ -359,6 +380,13 @@
 
     <script>
         $(function() {
+            introJs().setOptions({
+                nextLabel: '<%=  res.i18n({phrase: 'button_next', locale: lang}) %>',
+                prevLabel: '<%=  res.i18n({phrase: 'button_back', locale: lang}) %>',
+                skipLabel: '<%=  res.i18n({phrase: 'button_skip', locale: lang}) %>',
+                doneLabel: '<%=  res.i18n({phrase: 'button_end', locale: lang}) %>'
+            })
+
             $('#errorModal').on('hide', function () {
                 window.location = "<%= address %>"
             })
@@ -410,7 +438,12 @@
             loadQuestion()
 
             if(firstTime) {
-                introJs().start()
+                introJs().setOptions({
+                    nextLabel: '<%=  res.i18n({phrase: 'button_next', locale: lang}) %>',
+                    prevLabel: '<%=  res.i18n({phrase: 'button_back', locale: lang}) %>',
+                    skipLabel: '<%=  res.i18n({phrase: 'button_skip', locale: lang}) %>',
+                    doneLabel: '<%=  res.i18n({phrase: 'button_end', locale: lang}) %>'
+                }).start()
 
                 var update = {
                     id: idGamer,
@@ -459,6 +492,15 @@
         var max = <%= numberQuestions%>
         var step = 100 / max
         var incremental = 0
+
+        var startTutorial = function() {
+            introJs().setOptions({
+                nextLabel: '<%=  res.i18n({phrase: 'button_next', locale: lang}) %>',
+                prevLabel: '<%=  res.i18n({phrase: 'button_back', locale: lang}) %>',
+                skipLabel: '<%=  res.i18n({phrase: 'button_skip', locale: lang}) %>',
+                doneLabel: '<%=  res.i18n({phrase: 'button_end', locale: lang}) %>'
+            }).start()
+        }
 
         var read = function () {
             var languageCode = ""
