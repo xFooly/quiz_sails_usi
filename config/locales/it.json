@@ -31,9 +31,10 @@
     "quiz_quit": "Esci",
 
     "quiz_modalCongrats": "Congratulazioni!",
+    "quiz_victory": "HAI VINTO!",
     "quiz_modal1": "Hai risposto correttamente a 10 domande, il che ti permette di partecipare all’estrazione del premio a sorpresa della categoria 1.",
     "quiz_modal2": "Hai risposto correttamente a 20 domande, il che ti permette di partecipare all’estrazione del premio della categoria 2 (dvd dei frontaliers).",
-    "quiz_modal3": "Hai risposto correttamente a 20 domande, il che ti permette di partecipare all’estrazione del premio della categoria 3 (una felpa o una borsa USI).",
+    "quiz_modal3": "Hai risposto correttamente a 30 domande, il che ti permette di partecipare all’estrazione del premio della categoria 3 (una felpa o una borsa USI).",
     "quiz_modalEmail": "In caso di vittoria riverai una email entro 24 ore.",
     "quiz_modalReminder1": "Se vuoi aumentare le tue possibilità di vincita prova a rispondere altre volte a 10 domande di fila in modo corretto.",
     "quiz_modalReminder2": "Se vuoi aumentare le tue possibilità di vincita prova a rispondere altre volte a 20 domande di fila in modo corretto.",
