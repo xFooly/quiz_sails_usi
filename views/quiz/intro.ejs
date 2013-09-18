@@ -242,7 +242,7 @@
         var lang = "<%= lang%>"
         $(document).ready(function() {
             $('#submit').click(function () {
-                if($('#email').val() == mail) {
+                if($('#email').val() == mail || $('#email').val().indexOf('/') != -1 || $('#email').val().indexOf('<') != -1 || $('#email').val().indexOf('>') != -1) {
                     $('#errorEmail').html(invalidEmail)
                 } else {
                     socket.request('/email', {email: $('#email').val()}, function(res) {
