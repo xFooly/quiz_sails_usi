@@ -29,6 +29,9 @@ module.exports = {
       if(winners.p1Win == undefined || winners.p2Win == undefined || winners.p3Win == undefined) {
           res.json({status: false})
       } else {
+          var contentVictory = "GRANDEEEEE!!! \n\n Hai vinto un premio al gioco informatico della 'settimana della lingua e cultura della Svizzera italiana'.\n\nIl tuo premio ti aspetta in segreteria nei seguenti orari:\n7.30-9.50\n13.00-13.30\n16.00-16.30\n\nCari saluti,\n\nAndrea e Marcello, programmatori del gioco."
+          var subjectVictory = "[No Reply] Concorso Conoscimi - Vincitore del premio categoria ";
+
           var text = ""
           var today = new Date();
 
@@ -46,12 +49,17 @@ module.exports = {
                   gamer.save(function(res) {})
 
                   server.send({
-                      text:    "Ciao hai vinto il premio 1",
+                      text:    contentVictory,
                       from:    googleEmail.sender,
                       to:      "<" + winners.p1Win[key] + ">",
-                      subject: "Vincitore Concorso Conoscimi"
+                      subject: subjectVictory + 1
                   }, function(err, message) { console.log(err || message); });
               })
+
+              Winner.create({
+                  email: winners.p1Win[key],
+                  prize: 1
+              }).done(function(err, user) {})
           }
 
           text += '\n\n\n Categoria 2: \n'
@@ -65,12 +73,17 @@ module.exports = {
                   gamer.save(function(res) {})
 
                   server.send({
-                      text:    "Ciao hai vinto il premio 2",
+                      text:    contentVictory,
                       from:    googleEmail.sender,
                       to:      "<" + winners.p2Win[key] + ">",
-                      subject: "Vincitore Concorso Conoscimi"
+                      subject: subjectVictory + 2
                   }, function(err, message) { console.log(err || message); });
               })
+
+              Winner.create({
+                  email: winners.p1Win[key],
+                  prize: 2
+              }).done(function(err, user) {})
           }
 
           text += '\n\n\n Categoria 3: \n'
@@ -83,13 +96,18 @@ module.exports = {
 
                   gamer.save(function(res) {})
 
-//                  server.send({
-//                      text:    "Ciao hai vinto il premio 3",
-//                      from:    googleEmail.sender,
-//                      to:      "<" + winners.p3Win[key] + ">",
-//                      subject: "Vincitore Concorso Conoscimi"
-//                  }, function(err, message) { console.log(err || message); });
+                  server.send({
+                      text:    contentVictory,
+                      from:    googleEmail.sender,
+                      to:      "<" + winners.p3Win[key] + ">",
+                      subject: subjectVictory + 3
+                  }, function(err, message) { console.log(err || message); });
               })
+
+              Winner.create({
+                  email: winners.p1Win[key],
+                  prize: 3
+              }).done(function(err, user) {})
           }
 
           server.send({

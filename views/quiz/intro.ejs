@@ -27,6 +27,7 @@
 
     <style type="text/css">
         body {
+            position: relative;
             font: 71%/1.5 Verdana, Sans-Serif;
             background: #eee;
         }
@@ -130,6 +131,20 @@
             left: 1px;
             border-color: #e74c3c;
             cursor: pointer;
+        }
+
+        .photo-right-corner {
+            height: 500px;
+            position:absolute;
+            bottom: 0;
+            right:5px;
+        }
+
+        .photo-bubble {
+            height:100px;
+            position:absolute;
+            bottom: 520px;
+            right:5px;
         }
     </style>
 </head>
@@ -237,6 +252,9 @@
             <li class="space lastitem">&nbsp;</li>
         </ul>
     </div>
+
+    <img class="photo-right-corner" src="/images/me_normal.png"> </img>
+    <img class="photo-bubble" src="/images/test.png"> </img>
 
     <script>
         var lang = "<%= lang%>"
