@@ -21,7 +21,33 @@ module.exports = {
               })
           })
       })
+  },
+
+    allDestroy: function(req, res) {
+      Ticket.find().exec(function (err, tickets) {
+
+          tickets.forEach(function(ticket) {
+                ticket.destroy(function(err) {
+              })
+          });
+
+      })
+
+      Gamer.find().exec(function (err, gamers) {
+          gamers.forEach(function(gamer) {
+                gamer.destroy(function(err) {
+              })
+          });
+      })
+
+      Gamer.find().exec(function (err, winners) {
+          winners.forEach(function(winner) {
+                 winner.destroy(function(err) {
+              })
+          });
+      })
+
+      res.send('ok')
   }
-  
 
 };

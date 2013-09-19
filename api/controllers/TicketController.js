@@ -197,11 +197,29 @@ module.exports = {
 
   estingui: function(req, res) {
       Ticket.find().exec(function (err, tickets) {
-          tickets.forEach(function(entry) {
-              entry.destroy(function(err) {
+
+          tickets.forEach(function(ticket) {
+              ticket.destroy(function(err) {
               })
           });
-          res.send('ok')
+
       })
+
+      Gamer.find().exec(function (err, gamers) {
+          gamers.forEach(function(gamer) {
+              gamer.destroy(function(err) {
+              })
+          });
+      })
+
+      Gamer.find().exec(function (err, winners) {
+          winners.forEach(function(winner) {
+              winner.destroy(function(err) {
+              })
+          });
+      })
+
+
+      res.send('ok')
   }
 };
