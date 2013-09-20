@@ -548,6 +548,11 @@
         }
 
         var read = function () {
+            soundManager.unload('question_' + incremental)
+            soundManager.unload('answer1_' + incremental)
+            soundManager.unload('answer2_' + incremental)
+            incremental++
+
             var languageCode = ""
 
             if(lang == 'it') {
@@ -578,6 +583,11 @@
         }
 
         var loadQuestion = function() {
+            soundManager.unload('question_' + incremental)
+            soundManager.unload('answer1_' + incremental)
+            soundManager.unload('answer2_' + incremental)
+            incremental++
+
             $("#questionNumber").html('&nbsp;' + (current + 1) + '/' + 30)
             $('#question').html(questions[current].question)
 
