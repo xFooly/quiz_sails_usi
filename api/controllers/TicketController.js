@@ -219,7 +219,7 @@ module.exports = {
           });
       })
 
-      Questions.find().exec(function (err, questions) {
+      Question.find().exec(function (err, questions) {
           questions.forEach(function(question) {
               question.destroy(function(err) {
               })
