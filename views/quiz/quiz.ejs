@@ -236,7 +236,7 @@
 
                 <div class="row-fluid" style="margin-bottom: 13px;">
                     <a class="btn btn-large btn-block btn-primary" id="dailyTry">
-                        <% if(lottery.attempt <= maxAttempt) { %>
+                        <% if(lottery.attempt <= 10000) { %>
                             <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
                             <span id="daily"><%= lottery.attempt %> /3</span>
                         <% } else { %>
