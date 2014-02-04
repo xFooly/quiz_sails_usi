@@ -3862,3 +3862,10 @@ body.vjs-full-window {
 .mal {
   margin-left: 20px;
 }
+
+body { 
+        -moz-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -o-user-select: none; 
+} 
