@@ -236,7 +236,7 @@
 
                 <div class="row-fluid" style="margin-bottom: 13px;">
                     <a class="btn btn-large btn-block btn-primary" id="dailyTry">
-                        <% if(lottery.attempt <= 3) { %>
+                        <% if(lottery.attempt <= maxAttempt) { %>
                             <%= res.i18n({phrase: 'quiz_dailyTry', locale: lang}) %>
                             <span id="daily"><%= lottery.attempt %> /3</span>
                         <% } else { %>
@@ -425,6 +425,8 @@
 
     <script>
         $(function() {
+            var maxAttempt = 10000;
+
             introJs().setOptions({
                 nextLabel: '<%=  res.i18n({phrase: 'button_next', locale: lang}) %>',
                 prevLabel: '<%=  res.i18n({phrase: 'button_back', locale: lang}) %>',
@@ -476,7 +478,7 @@
               }
             });
 
-            if(attempt > 3) {
+            if(attempt > maxAttempt) {
                 forFun = true;
             }
 
@@ -508,7 +510,7 @@
                 checkQuestion(1)
             })
 
-            if(attempt > 3) {
+            if(attempt > maxAttempt) {
                 $('#moreTriesModal').modal()
             }
         });
